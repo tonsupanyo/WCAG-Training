@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ข้อมูลผู้โดยสารและสรุปการจอง - ไทยทริป</title>
+  <meta name="description" content="กรอกรายละเอียดผู้เดินทาง ข้อมูลการติดต่อ บริการเสริม และตรวจสอบสรุปรายละเอียดจองตั๋วรถทัวร์ไทยทริปตามเกณฑ์ WCAG AA">
+  <link rel="stylesheet" href="styles.css">
+  <script src="common.js" defer></script>
+  <script src="passenger-info.js" defer></script>
+</head>
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- Header -->
+  <div class="header-wrapper">
+    <header class="container">
+      <a href="index.html" class="logo" aria-label="ไทยทริป - หน้าหลัก">
+        <svg class="logo-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 6h11c.28 0 .53.18.62.44L19.33 10H4.67l1.21-3.56c.09-.26.34-.44.62-.44zM5 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+        <span>ไทยทริป</span>
+      </a>
+
+      <nav aria-label="เมนูหลัก">
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">ค้นหาเที่ยวเดินทาง</a></li>
+          <li><a href="#promotions" class="nav-link" aria-disabled="true">โปรโมชัน</a></li>
+          <li><a href="#booking-status" class="nav-link" aria-disabled="true">ตรวจสอบการจอง</a></li>
+          <li><a href="#contact" class="nav-link" aria-disabled="true">ติดต่อเรา</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-selector">
+          <label for="lang-select" class="sr-only">เลือกภาษา</label>
+          <select id="lang-select" class="select-custom">
+            <option value="th" selected>TH - ภาษาไทย</option>
+            <option value="en">EN - English</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="alert('จำลองการเข้าสู่ระบบ')">เข้าสู่ระบบ</button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container" tabindex="-1">
+    
+    <!-- Step Indicator (4 clean stages as requested) -->
+    <nav class="step-indicator-wrapper" aria-label="ขั้นตอนการจองตั๋ว">
+      <ol class="step-list">
+        <li class="step-item completed">เลือกเที่ยวเดินทาง <span class="sr-only">(เสร็จสิ้น)</span></li>
+        <li class="step-item completed">เลือกที่นั่ง <span class="sr-only">(เสร็จสิ้น)</span></li>
+        <li class="step-item active" aria-current="step">ข้อมูลผู้โดยสาร</li>
+        <li class="step-item">ชำระเงิน</li>
+      </ol>
+    </nav>
+
+    <!-- Page Title -->
+    <h1>ข้อมูลผู้โดยสารและสรุปการจอง</h1>
+
+    <!-- Error Summary: WCAG 3.3.1 Error Identification -->
+    <section id="error-summary" class="form-error-summary" aria-labelledby="error-summary-title" tabindex="-1">
+      <h2 id="error-summary-title">กรุณาแก้ไขข้อผิดพลาดในการป้อนข้อมูลดังต่อไปนี้:</h2>
+      <ul id="error-summary-list">
+        <!-- Dynamically filled by JS -->
+      </ul>
+    </section>
+
+    <div class="selection-columns" style="margin-top: 30px;">
+      
+      <!-- Left Column: Passenger Info Forms, Contact Form, Additional Services -->
+      <div class="results-column">
+        
+        <form id="passenger-info-form" novalidate>
+          <!-- Hidden inputs to carry states forward -->
+          <input type="hidden" name="tripId" id="carry-trip-id">
+          <input type="hidden" name="seats" id="carry-seats">
+          <input type="hidden" name="price" id="carry-price">
+
+          <!-- Passengers Forms Container -->
+          <div id="dynamic-passenger-forms-container">
+            <!-- Populated dynamically via JS -->
+          </div>
+
+          <!-- Contact Details Form Container -->
+          <fieldset class="form-container-card" aria-labelledby="contact-section-legend">
+            <legend class="form-section-title" id="contact-section-legend">ข้อมูลติดต่อ (สำหรับรับตั๋วเดินทางดิจิทัล)</legend>
+            
+            <!-- Checkbox copy passenger 1 info -->
+            <div style="margin-bottom: 20px;">
+              <label class="checkbox-label" style="font-weight: bold; color: var(--primary);">
+                <input type="checkbox" id="chk-use-p1-info">
+                <span>ใช้ข้อมูลเดียวกับผู้โดยสารคนที่ 1</span>
+              </label>
+            </div>
+
+            <div class="form-control" style="margin-bottom:16px;">
+              <label for="contact-name" class="form-label">ชื่อ - นามสกุล ผู้ติดต่อ</label>
+              <input type="text" id="contact-name" class="form-input" autocomplete="name" required placeholder="เช่น สมชาย ใจดี">
+              <span id="contact-name-error" class="error-message-text" role="status">กรุณากรอกชื่อและนามสกุลผู้ติดต่อ</span>
+            </div>
+
+            <div class="form-grid-2col">
+              <div class="form-control">
+                <label for="contact-phone" class="form-label">เบอร์โทรศัพท์มือถือ</label>
+                <input type="tel" id="contact-phone" class="form-input" autocomplete="tel" required placeholder="เช่น 0891234567">
+                <span id="contact-phone-error" class="error-message-text" role="status">กรุณากรอกเบอร์มือถือ 10 หลัก (เช่น 0812345678)</span>
+              </div>
+              <div class="form-control">
+                <label for="contact-email" class="form-label">อีเมล</label>
+                <input type="email" id="contact-email" class="form-input" autocomplete="email" required placeholder="เช่น name@example.com">
+                <span id="contact-email-error" class="error-message-text" role="status">กรุณากรอกอีเมลให้ถูกต้องตามรูปแบบ</span>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Additional Services Section -->
+          <section class="form-container-card" style="padding: 24px;" aria-labelledby="services-section-title">
+            <h2 id="services-section-title" class="form-section-title">เลือกซื้อบริการเสริมเพิ่มเติม</h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              
+              <!-- Service 1: Insurance -->
+              <div class="passenger-type-col" style="background-color:#ffffff; border:1px solid var(--border);">
+                <label class="checkbox-label" style="flex-grow:1; align-items: flex-start;">
+                  <input type="checkbox" id="srv-insurance" value="50">
+                  <div style="display:flex; flex-direction:column; gap:4px; margin-top:-2px;">
+                    <span style="font-weight:700; color:var(--primary);">ประกันภัยความปลอดภัยการเดินทาง (+50 บาท/ผู้โดยสาร)</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);">วงเงินคุ้มครองค่ารักษาสูงสุด 100,000 บาท ตลอดการเดินทางการจองรอบนี้</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Service 2: Baggage -->
+              <div class="passenger-type-col" style="background-color:#ffffff; border:1px solid var(--border);">
+                <label class="checkbox-label" style="flex-grow:1; align-items: flex-start;">
+                  <input type="checkbox" id="srv-baggage" value="100">
+                  <div style="display:flex; flex-direction:column; gap:4px; margin-top:-2px;">
+                    <span style="font-weight:700; color:var(--primary);">สัมภาระน้ำหนักโหลดเพิ่มเติม (+100 บาท/คัน)</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);">เพิ่มน้ำหนักกระเป๋าได้อีก 10 กิโลกรัม (รวมเป็นสูงสุด 30 กิโลกรัม)</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Service 3: Meal -->
+              <div class="passenger-type-col" style="background-color:#ffffff; border:1px solid var(--border);">
+                <label class="checkbox-label" style="flex-grow:1; align-items: flex-start;">
+                  <input type="checkbox" id="srv-meal" value="80">
+                  <div style="display:flex; flex-direction:column; gap:4px; margin-top:-2px;">
+                    <span style="font-weight:700; color:var(--primary);">บริการชุดอาหารพิเศษพรีเมียมบนรถ (+80 บาท/ผู้โดยสาร)</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);">เปลี่ยนเป็นชุดเซ็ตอาหารร้อนรสเลิศพร้อมเครื่องดื่มสมุนไพรพรีเมียม</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Service 4: Transfer -->
+              <div class="passenger-type-col" style="background-color:#ffffff; border:1px solid var(--border);">
+                <label class="checkbox-label" style="flex-grow:1; align-items: flex-start;">
+                  <input type="checkbox" id="srv-transfer" value="120">
+                  <div style="display:flex; flex-direction:column; gap:4px; margin-top:-2px;">
+                    <span style="font-weight:700; color:var(--primary);">บริการรถรับส่งจากสถานีขนส่งปลายทาง (+120 บาท/การจอง)</span>
+                    <span style="font-size:0.85rem; color:var(--text-muted);">ส่งฟรีในรัศมี 15 กิโลเมตร จากสถานีขนส่งเชียงใหม่ (อาเขต) สู่โรงแรมที่พัก</span>
+                  </div>
+                </label>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Acceptance Checkbox and Buttons -->
+          <div class="form-container-card" style="padding: 24px;">
+            <label class="checkbox-label" style="font-weight: bold; color: var(--primary); margin-bottom: 24px;">
+              <input type="checkbox" id="chk-accept-terms" required>
+              <span>ฉันยอมรับเงื่อนไขการใช้บริการและนโยบายการเดินทาง/การคืนตั๋วของไทยทริป</span>
+            </label>
+            <span id="terms-error" class="error-message-text" style="margin-top:-15px; margin-bottom:15px;" role="status">กรุณายอมรับเงื่อนไขบริการเพื่อทำรายการชำระเงิน</span>
+
+            <div style="display:flex; justify-content: space-between;">
+              <button type="button" class="btn btn-secondary" id="btn-back-to-seats">ย้อนกลับไปเลือกที่นั่ง</button>
+              <button type="submit" class="btn btn-primary" style="padding: 12px 40px;">ดำเนินการชำระเงิน</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Right Column: Booking Checkout Summary -->
+      <aside class="seating-column" aria-label="สรุปรายการสั่งซื้อและยอดชำระเงิน">
+        <div class="seating-card">
+          <h2 style="font-size:1.25rem; border-bottom:2px solid var(--border); padding-bottom:8px; margin-bottom:20px;">
+            สรุปการทำรายการ
+          </h2>
+
+          <div class="summary-row">
+            <span>เส้นทางเดินทาง:</span>
+            <strong id="summary-route-label">-</strong>
+          </div>
+          <div class="summary-row">
+            <span>วันเดินทาง/เวลา:</span>
+            <strong id="summary-datetime-label">-</strong>
+          </div>
+          <div class="summary-row">
+            <span>ผู้โดยสาร:</span>
+            <strong id="summary-passengers-label">-</strong>
+          </div>
+          <div class="summary-row">
+            <span>ตำแหน่งที่นั่ง:</span>
+            <strong id="summary-seats-label">-</strong>
+          </div>
+
+          <div class="summary-row" style="border-top:1px dotted var(--border); padding-top:10px; margin-top:15px;">
+            <span>ราคาตั๋วเดินทาง:</span>
+            <strong id="summary-base-price-label">0 บาท</strong>
+          </div>
+          <div class="summary-row">
+            <span>บริการเสริมเพิ่มเติม:</span>
+            <strong id="summary-services-price-label">0 บาท</strong>
+          </div>
+          <div class="summary-row">
+            <span>ค่าธรรมเนียมออกตั๋ว:</span>
+            <strong>30 บาท</strong>
+          </div>
+          
+          <!-- Promo Discount row -->
+          <div class="summary-row" id="summary-discount-row" style="color:var(--success); display:none;">
+            <span>ส่วนลดโปรโมชัน:</span>
+            <strong id="summary-discount-price-label">-0 บาท</strong>
+          </div>
+
+          <div class="summary-row border-top-sum">
+            <span style="font-weight:bold;">ยอดเงินสุทธิ:</span>
+            <span class="summary-total-price" id="summary-total-price-label" aria-live="polite">0 บาท</span>
+          </div>
+
+          <!-- Promo Code Form box -->
+          <div class="form-control" style="margin-top: 20px; border-top:1px solid var(--border); padding-top:20px;">
+            <label for="promo-code-input" class="form-label">รหัสโปรโมชัน</label>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="promo-code-input" class="form-input" style="height:40px;" placeholder="กรอกรหัสส่วนลด">
+              <button type="button" id="btn-apply-promo" class="btn btn-secondary" style="min-height:40px; height:40px; padding:0 16px;">ใช้โค้ด</button>
+            </div>
+            <span id="promo-status" class="error-message-text" style="color:var(--success);" role="status"></span>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col footer-about">
+        <a href="index.html" class="logo" style="color: #ffffff;">
+          <svg class="logo-icon" viewBox="0 0 24 24" style="fill: #ffffff;"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 6h11c.28 0 .53.18.62.44L19.33 10H4.67l1.21-3.56c.09-.26.34-.44.62-.44zM5 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+          <span>ไทยทริป</span>
+        </a>
+        <p>ไทยทริปเป็นระบบจองตั๋วรถทัวร์เพื่อตอบรับการเข้าถึงทางดิจิทัลอย่างเท่าเทียม มั่นใจทุกการเดินทาง สะดวก ปลอดภัย ตลอดเส้นทาง</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>บริการ</h3>
+        <ul>
+          <li><a href="index.html">ค้นหาตั๋วเดินทาง</a></li>
+          <li><a href="#promotions">โปรโมชันพิเศษ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ช่วยเหลือ</h3>
+        <ul>
+          <li><a href="#faq">คำถามที่พบบ่อย</a></li>
+          <li><a href="#accessibility-statement">นโยบายการเข้าถึงเว็บ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ข้อกฎหมาย</h3>
+        <ul>
+          <li><a href="#terms">เงื่อนไขการใช้บริการ</a></li>
+          <li><a href="#privacy">นโยบายความเป็นส่วนตัว</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ช่องทางติดต่อ</h3>
+        <p style="font-size: 0.9rem; color: hsl(220, 20%, 85%); margin-bottom: 8px;">สายด่วน: 02-123-4567</p>
+        <div class="social-links">
+          <a href="#facebook" class="social-icon" aria-label="ติดตาม ไทยทริป บน Facebook">FB</a>
+          <a href="#twitter" class="social-icon" aria-label="ติดตาม ไทยทริป บน Twitter">TW</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 ไทยทริป (Thai Trip). สงวนลิขสิทธิ์ทั้งหมด (เว็บไซต์นี้ทำขึ้นเพื่อเป็นตัวอย่างสำหรับเวิร์กชอป WCAG เท่านั้น)</p>
+      <p>มาตรฐานการเข้าถึงเว็บ WCAG 2.2 AA</p>
+    </div>
+  </footer>
+
+</body>
+</html>

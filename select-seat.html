@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายละเอียดเที่ยวเดินทางและเลือกที่นั่ง - ไทยทริป</title>
+  <meta name="description" content="ดูรายละเอียดเที่ยวเดินทางรถทัวร์ไทยทริป ตรวจสอบสิ่งอำนวยความสะดวก เงื่อนไขคืนตั๋ว และเลือกที่นั่งตามประเภทคัดกรองสอดคล้องตามเกณฑ์ WCAG AA">
+  <link rel="stylesheet" href="styles.css">
+  <script src="common.js" defer></script>
+  <script src="select-seat.js" defer></script>
+</head>
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- Header -->
+  <div class="header-wrapper">
+    <header class="container">
+      <a href="index.html" class="logo" aria-label="ไทยทริป - หน้าหลัก">
+        <svg class="logo-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 6h11c.28 0 .53.18.62.44L19.33 10H4.67l1.21-3.56c.09-.26.34-.44.62-.44zM5 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+        <span>ไทยทริป</span>
+      </a>
+
+      <nav aria-label="เมนูหลัก">
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">ค้นหาเที่ยวเดินทาง</a></li>
+          <li><a href="#promotions" class="nav-link" aria-disabled="true">โปรโมชัน</a></li>
+          <li><a href="#booking-status" class="nav-link" aria-disabled="true">ตรวจสอบการจอง</a></li>
+          <li><a href="#contact" class="nav-link" aria-disabled="true">ติดต่อเรา</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-selector">
+          <label for="lang-select" class="sr-only">เลือกภาษา</label>
+          <select id="lang-select" class="select-custom">
+            <option value="th" selected>TH - ภาษาไทย</option>
+            <option value="en">EN - English</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="alert('จำลองการเข้าสู่ระบบ')">เข้าสู่ระบบ</button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container" tabindex="-1">
+    
+    <!-- Step Indicator (Updated mapping with select-seat step) -->
+    <nav class="step-indicator-wrapper" aria-label="ขั้นตอนการจองตั๋ว">
+      <ol class="step-list">
+        <li class="step-item completed">ค้นหาเที่ยวรถ <span class="sr-only">(เสร็จสิ้น)</span></li>
+        <li class="step-item completed">เลือกเที่ยวรถ <span class="sr-only">(เสร็จสิ้น)</span></li>
+        <li class="step-item active" aria-current="step">เลือกที่นั่ง</li>
+        <li class="step-item">กรอกข้อมูลผู้โดยสาร</li>
+        <li class="step-item">ชำระเงิน</li>
+        <li class="step-item">เสร็จสิ้น</li>
+      </ol>
+    </nav>
+
+    <!-- Hold Reservation Timer Alert Banner (WCAG 2.2.1 Timing Adjustable) -->
+    <div class="timer-banner" role="status" aria-live="polite" style="margin-bottom: 24px;">
+      <div class="timer-text-container">
+        <span style="font-size: 1.5rem;" aria-hidden="true">⏱</span>
+        <div>
+          <p style="margin-bottom: 2px; font-weight: bold; color: var(--primary);">ระบบสำรองล็อกที่นั่งสำหรับคุณชั่วคราว</p>
+          <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--text-muted);">กรุณาเลือกที่นั่งและส่งข้อมูลในเวลาที่กำหนด</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <div class="timer-countdown" id="seat-hold-timer" aria-label="เวลาล็อกที่นั่งเหลือ 10 นาที 0 วินาที">10:00</div>
+        <button type="button" class="btn btn-secondary" id="btn-extend-hold-timer" style="min-height:36px; height:36px; padding:0 12px; font-size:0.85rem;">ขยายเวลา</button>
+      </div>
+    </div>
+
+    <!-- Page Title -->
+    <h1>รายละเอียดเที่ยวเดินทางและเลือกที่นั่ง</h1>
+
+    <!-- 1. Top Section: Selected Trip Summary Card -->
+    <section class="form-container-card" style="margin-top:20px; padding: 24px;" aria-labelledby="trip-summary-title">
+      <h2 id="trip-summary-title" class="form-section-title">เที่ยวรถที่คุณเลือก</h2>
+      <div class="ticket-details-grid" style="gap: 15px 30px;">
+        <div>
+          <span class="ticket-item-label">เส้นทาง</span>
+          <p class="ticket-item-val" id="summary-route-text">-</p>
+        </div>
+        <div>
+          <span class="ticket-item-label">ผู้ให้บริการ</span>
+          <p class="ticket-item-val" id="summary-operator-text">-</p>
+        </div>
+        <div>
+          <span class="ticket-item-label">วันออกเดินทาง</span>
+          <p class="ticket-item-val" id="summary-date-text">-</p>
+        </div>
+        <div>
+          <span class="ticket-item-label">เวลาเดินทาง (ออก ➔ ถึง)</span>
+          <p class="ticket-item-val" id="summary-time-text">-</p>
+        </div>
+        <div>
+          <span class="ticket-item-label">ระยะเวลา / หมายเลขขบวน</span>
+          <p class="ticket-item-val" id="summary-duration-busno-text">-</p>
+        </div>
+        <div>
+          <span class="ticket-item-label">จุดจอดพัก/จุดเปลี่ยนรถ</span>
+          <p class="ticket-item-val" id="summary-transit-point-text">ไม่มีการเปลี่ยนคัน (เดินทางสายตรง)</p>
+        </div>
+        <div style="grid-column: span 2;">
+          <span class="ticket-item-label">เงื่อนไขเกี่ยวกับสัมภาระ</span>
+          <p class="ticket-item-val" style="font-size:0.95rem; font-weight: normal; color:var(--text-dark);">
+            ฟรีสัมภาระโหลดใต้ท้องรถน้ำหนักรวมไม่เกิน 20 กิโลกรัมต่อผู้โดยสาร 1 ท่าน และกระเป๋าถือขึ้นเครื่อง 1 ใบ
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Tabs Controls Widget (WCAG Tabs Pattern) -->
+    <section class="form-container-card" style="padding: 24px;" aria-label="ข้อมูลรายละเอียดรอบรถเพิ่มเติม">
+      <div class="payment-tabs" role="tablist" aria-label="รายละเอียดเพิ่มเติมเกี่ยวกับเที่ยวรถ">
+        <button type="button" id="tab-route" class="payment-tab-btn active" role="tab" aria-selected="true" aria-controls="pane-route">
+          รายละเอียดการเดินทาง
+        </button>
+        <button type="button" id="tab-amenities" class="payment-tab-btn" role="tab" aria-selected="false" aria-controls="pane-amenities">
+          สิ่งอำนวยความสะดวก
+        </button>
+        <button type="button" id="tab-policy" class="payment-tab-btn" role="tab" aria-selected="false" aria-controls="pane-policy">
+          เงื่อนไขการเปลี่ยนหรือคืนตั๋ว
+        </button>
+      </div>
+
+      <!-- Tab Panels -->
+      <!-- Panel 1: Route details -->
+      <div id="pane-route" class="payment-pane active" role="tabpanel" aria-labelledby="tab-route" tabindex="0">
+        <h3 class="sr-only">ลำดับจุดจอดและเวลา</h3>
+        <div class="transit-legs-container" id="route-stops-timeline">
+          <!-- Populated dynamically based on trip -->
+        </div>
+      </div>
+
+      <!-- Panel 2: Amenities -->
+      <div id="pane-amenities" class="payment-pane" role="tabpanel" aria-labelledby="tab-amenities" tabindex="0">
+        <h3 class="sr-only">สิ่งอำนวยความสะดวกบนรถทัวร์</h3>
+        <ul id="amenities-list-details" style="list-style-position:inside; display:flex; flex-direction:column; gap:10px;">
+          <!-- Populated dynamically -->
+        </ul>
+      </div>
+
+      <!-- Panel 3: Change/Refund policies -->
+      <div id="pane-policy" class="payment-pane" role="tabpanel" aria-labelledby="tab-policy" tabindex="0">
+        <h3>นโยบายการเปลี่ยนแปลงและการยกเลิกตั๋ว</h3>
+        <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:0.95rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border); text-align:left;">
+              <th style="padding:10px 0;">ระยะเวลาดำเนินการ</th>
+              <th style="padding:10px 0;">ค่าธรรมเนียมคืนเงิน</th>
+              <th style="padding:10px 0;">เงื่อนไขเพิ่มเติม</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding:10px 0;">ก่อนรถออกเดินทาง 24 ชม. ขึ้นไป</td>
+              <td style="padding:10px 0; color:var(--success); font-weight:bold;">ฟรีค่าธรรมเนียม</td>
+              <td style="padding:10px 0;">คืนเงินเต็มจำนวนเข้าสู่บัญชีเดิม</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding:10px 0;">ก่อนรถออกเดินทาง 12 - 24 ชม.</td>
+              <td style="padding:10px 0; color:var(--error); font-weight:bold;">30% ของราคาตั๋ว</td>
+              <td style="padding:10px 0;">หักยอดเพื่อดำเนินการด้านที่นั่ง</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding:10px 0;">น้อยกว่า 12 ชม. หรือหลังรถออก</td>
+              <td style="padding:10px 0; color:var(--error); font-weight:bold;">100% (ไม่คืนเงิน)</td>
+              <td style="padding:10px 0;">ไม่สามารถเปลี่ยนวันเดินทางหรือคืนตั๋วได้</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Validation Error Alert Banner for selection counts -->
+    <div id="seat-error-alert" class="form-error-summary" style="display:none; margin-bottom:24px;" tabindex="-1" role="alert">
+      <h2>ข้อผิดพลาดในการเลือกที่นั่ง:</h2>
+      <p id="seat-error-text">กรุณาเลือกที่นั่งให้ตรงตามจำนวนผู้โดยสาร</p>
+    </div>
+
+    <!-- Booking Selection Columns -->
+    <div class="selection-columns">
+      
+      <!-- Left Column: Seat Map Grid & Special Assistance Options -->
+      <div class="results-column">
+        
+        <!-- Seat Map Card -->
+        <section class="seating-card" aria-label="แผนผังเลือกที่นั่ง">
+          <h2>แผนผังเลือกที่นั่ง</h2>
+          
+          <div class="seating-layout-wrapper">
+            <!-- Accessible Legend (Uses icons AND text, distinct styles - WCAG 1.4.1) -->
+            <div class="legend-container" style="flex-wrap:wrap; gap:16px 12px; justify-content:center;">
+              <div class="legend-item">
+                <span class="seat legend-icon available" style="width:24px; height:24px; pointer-events:none;" aria-hidden="true"></span>
+                <span>ว่างปกติ</span>
+              </div>
+              <div class="legend-item">
+                <span class="seat legend-icon selected" style="width:24px; height:24px; pointer-events:none;" aria-hidden="true">✓</span>
+                <span>กำลังเลือก</span>
+              </div>
+              <div class="legend-item">
+                <span class="seat legend-icon occupied" style="width:24px; height:24px; pointer-events:none;" aria-hidden="true">✕</span>
+                <span>จองแล้ว</span>
+              </div>
+              <div class="legend-item">
+                <span class="seat legend-icon available" style="width:24px; height:24px; border-color:var(--focus-outline); pointer-events:none;" aria-hidden="true">👵</span>
+                <span>ผู้สูงอายุ</span>
+              </div>
+              <div class="legend-item">
+                <span class="seat legend-icon available" style="width:24px; height:24px; border-color:var(--primary); pointer-events:none;" aria-hidden="true">♿</span>
+                <span>ผู้ใช้รถเข็น</span>
+              </div>
+              <div class="legend-item">
+                <span class="seat legend-icon available" style="width:24px; height:24px; border-style:dashed; border-color:var(--accent); pointer-events:none;" aria-hidden="true">💎</span>
+                <span>บวกราคาเพิ่ม (+50฿)</span>
+              </div>
+            </div>
+
+            <!-- Visual Bus Grid wrapper -->
+            <div class="bus-deck">
+              <div class="bus-front" aria-hidden="true">
+                <div class="steering-wheel">⎔ หน้ารถ</div>
+              </div>
+              <div class="seat-grid" id="bus-seat-grid-p3" role="group" aria-label="ตารางที่นั่งรถทัวร์">
+                <!-- Populated dynamically via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Special Assistance Options Section -->
+        <section class="form-container-card" style="margin-top:24px; padding:24px;" aria-labelledby="special-assistance-heading">
+          <h2 id="special-assistance-heading" class="form-section-title">
+            บริการและความช่วยเหลือพิเศษเพิ่มเติม
+          </h2>
+          <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;">
+            สำหรับผู้โดยสารที่มีความต้องการเฉพาะ กรุณาเลือกตัวเลือกที่ต้องการด้านล่าง
+          </p>
+
+          <fieldset style="border:none; display:flex; flex-direction:column; gap:12px;">
+            <legend class="sr-only">ตัวเลือกบริการพิเศษ</legend>
+            
+            <label class="checkbox-label">
+              <input type="checkbox" id="chk-wheelchair-space" name="special-req" value="wheelchair-space">
+              <strong>ต้องการพื้นที่ว่างสำหรับจอดรถเข็นวีลแชร์บนรถ</strong>
+            </label>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="chk-boarding-assist" name="special-req" value="boarding-assist">
+              <strong>ต้องการเจ้าหน้าที่ช่วยเหลือพยุงหรือขึ้นรถขนส่ง</strong>
+            </label>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="chk-guide-dog" name="special-req" value="guide-dog">
+              <strong>เดินทางร่วมกับสุนัขนำทางสำหรับผู้พิการทางสายตา</strong>
+            </label>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="chk-large-equipment" name="special-req" value="large-equip">
+              <strong>มีอุปกรณ์เครื่องช่วยแพทย์/เครื่องช่วยเดินขนาดใหญ่</strong>
+            </label>
+            
+            <div class="form-control" style="margin-top: 10px;">
+              <label for="txt-special-details" class="form-label">กรอกข้อมูลรายละเอียดความช่วยเหลือหรืออุปกรณ์เพิ่มเติม (ถ้ามี)</label>
+              <textarea id="txt-special-details" class="form-input" style="height:100px; resize:vertical; padding:12px;" placeholder="เช่น ขนาดของเก้าอี้รถเข็น, น้ำหนักของอุปกรณ์ช่วยเดิน หรือข้อบ่งชี้ทางแพทย์อื่น ๆ"></textarea>
+            </div>
+          </fieldset>
+        </section>
+
+      </div>
+
+      <!-- Right Column: Booking Summary Card -->
+      <aside class="seating-column" aria-label="สรุปการเลือกและราคา">
+        <div class="seating-card">
+          <h2 style="font-size:1.25rem; border-bottom:2px solid var(--border); padding-bottom:8px; margin-bottom:20px;">สรุปรายการจองตั๋ว</h2>
+          
+          <div class="summary-row">
+            <span>เที่ยวรถที่เลือก:</span>
+            <strong id="sidebar-trip-name">-</strong>
+          </div>
+          <div class="summary-row">
+            <span>จำนวนผู้โดยสาร:</span>
+            <strong id="sidebar-passenger-count">-</strong>
+          </div>
+          <div class="summary-row">
+            <span>ตำแหน่งที่นั่ง:</span>
+            <strong id="sidebar-selected-seats" style="color:var(--primary);">ยังไม่ได้เลือกที่นั่ง</strong>
+          </div>
+          
+          <div class="summary-row" style="border-top:1px dotted var(--border); padding-top:10px; margin-top:10px;">
+            <span>ราคาตั๋วรวม:</span>
+            <strong id="sidebar-price-base">0 บาท</strong>
+          </div>
+          <div class="summary-row">
+            <span>ค่าบริการเพิ่มเติม:</span>
+            <strong id="sidebar-price-extra">0 บาท</strong>
+          </div>
+
+          <div class="summary-row border-top-sum">
+            <span style="font-weight:bold;">ยอดเงินสุทธิ:</span>
+            <span class="summary-total-price" id="sidebar-price-total">0 บาท</span>
+          </div>
+
+          <!-- Proceed Form submission -->
+          <form id="proceed-to-passenger-form" action="passenger-info.html" method="GET">
+            <input type="hidden" name="tripId" id="final-trip-id">
+            <input type="hidden" name="seats" id="final-seats">
+            <input type="hidden" name="price" id="final-price">
+            
+            <button type="submit" class="btn btn-primary btn-block" id="btn-submit-booking-seat" style="margin-top: 24px; font-size: 1.05rem;">
+              กรอกข้อมูลผู้โดยสาร
+            </button>
+          </form>
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- Timer Warning Modal (WCAG AA compliant focus trap) -->
+  <div class="modal-overlay" id="hold-timer-modal" role="dialog" aria-modal="true" aria-labelledby="timer-modal-title" aria-describedby="timer-modal-desc">
+    <div class="modal-container">
+      <h2 class="modal-title" id="timer-modal-title">เวลาในการล็อกที่นั่งใกล้จะหมด</h2>
+      <p class="modal-body-text" id="timer-modal-desc">
+        เวลาในการสำรองที่นั่งชั่วคราวของคุณกำลังจะหมดลงในอีก <strong id="timer-modal-sec">120</strong> วินาที คุณต้องการขยายเวลาจองที่นั่งออกไปอีก 10 นาทีหรือไม่?
+      </p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="btn-timer-modal-cancel">ยกเลิกรายการ</button>
+        <button type="button" class="btn btn-primary" id="btn-timer-modal-extend">ใช่, ขยายเวลา</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col footer-about">
+        <a href="index.html" class="logo" style="color: #ffffff;">
+          <svg class="logo-icon" viewBox="0 0 24 24" style="fill: #ffffff;"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 6h11c.28 0 .53.18.62.44L19.33 10H4.67l1.21-3.56c.09-.26.34-.44.62-.44zM5 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+          <span>ไทยทริป</span>
+        </a>
+        <p>ไทยทริปเป็นระบบจองตั๋วรถทัวร์เพื่อตอบรับการเข้าถึงทางดิจิทัลอย่างเท่าเทียม มั่นใจทุกการเดินทาง สะดวก ปลอดภัย ตลอดเส้นทาง</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>บริการ</h3>
+        <ul>
+          <li><a href="index.html">ค้นหาตั๋วเดินทาง</a></li>
+          <li><a href="#promotions">โปรโมชันพิเศษ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ช่วยเหลือ</h3>
+        <ul>
+          <li><a href="#faq">คำถามที่พบบ่อย</a></li>
+          <li><a href="#accessibility-statement">นโยบายการเข้าถึงเว็บ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ข้อกฎหมาย</h3>
+        <ul>
+          <li><a href="#terms">เงื่อนไขการใช้บริการ</a></li>
+          <li><a href="#privacy">นโยบายความเป็นส่วนตัว</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ช่องทางติดต่อ</h3>
+        <p style="font-size: 0.9rem; color: hsl(220, 20%, 85%); margin-bottom: 8px;">สายด่วน: 02-123-4567</p>
+        <div class="social-links">
+          <a href="#facebook" class="social-icon" aria-label="ติดตาม ไทยทริป บน Facebook">FB</a>
+          <a href="#twitter" class="social-icon" aria-label="ติดตาม ไทยทริป บน Twitter">TW</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 ไทยทริป (Thai Trip). สงวนลิขสิทธิ์ทั้งหมด (เว็บไซต์นี้ทำขึ้นเพื่อเป็นตัวอย่างสำหรับเวิร์กชอป WCAG เท่านั้น)</p>
+      <p>มาตรฐานการเข้าถึงเว็บ WCAG 2.2 AA</p>
+    </div>
+  </footer>
+
+</body>
+</html>

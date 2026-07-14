@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ผลการค้นหาเที่ยวเดินทาง - ไทยทริป</title>
+  <meta name="description" content="ผลการค้นหาเที่ยวรถทัวร์ไทยทริป คัดกรองและจัดเรียงเส้นทางเดินทางที่สอดคล้องมาตรฐานความสามารถการเข้าถึง WCAG AA สำหรับทุกคน">
+  <link rel="stylesheet" href="styles.css">
+  <script src="common.js" defer></script>
+  <script src="select-trip.js" defer></script>
+</head>
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- Header -->
+  <div class="header-wrapper">
+    <header class="container">
+      <a href="index.html" class="logo" aria-label="ไทยทริป - หน้าหลัก">
+        <svg class="logo-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 6h11c.28 0 .53.18.62.44L19.33 10H4.67l1.21-3.56c.09-.26.34-.44.62-.44zM5 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+        <span>ไทยทริป</span>
+      </a>
+
+      <nav aria-label="เมนูหลัก">
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">ค้นหาเที่ยวเดินทาง</a></li>
+          <li><a href="#promotions" class="nav-link" aria-disabled="true">โปรโมชัน</a></li>
+          <li><a href="#booking-status" class="nav-link" aria-disabled="true">ตรวจสอบการจอง</a></li>
+          <li><a href="#contact" class="nav-link" aria-disabled="true">ติดต่อเรา</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-selector">
+          <label for="lang-select" class="sr-only">เลือกภาษา</label>
+          <select id="lang-select" class="select-custom">
+            <option value="th" selected>TH - ภาษาไทย</option>
+            <option value="en">EN - English</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="alert('จำลองการเข้าสู่ระบบ')">เข้าสู่ระบบ</button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container" tabindex="-1">
+    
+    <!-- Step Indicator -->
+    <nav class="step-indicator-wrapper" aria-label="ขั้นตอนการจองตั๋ว">
+      <ol class="step-list">
+        <li class="step-item completed">ค้นหาเที่ยวรถ <span class="sr-only">(เสร็จสิ้น)</span></li>
+        <li class="step-item active" aria-current="step">เลือกเที่ยวและที่นั่ง</li>
+        <li class="step-item">กรอกข้อมูลผู้โดยสาร</li>
+        <li class="step-item">ชำระเงิน</li>
+        <li class="step-item">เสร็จสิ้น</li>
+      </ol>
+    </nav>
+
+    <!-- Top Summary Card with In-place Edit Button -->
+    <section class="summary-search-card" aria-label="สรุปข้อมูลการค้นหาปัจจุบัน">
+      <div class="summary-details">
+        <p><strong>เส้นทาง:</strong> <span id="summary-route">กรุงเทพฯ (หมอชิต 2) ➔ เชียงใหม่ (อาเขต)</span></p>
+        <p><strong>วันเดินทาง:</strong> <span id="summary-date">15 กรกฎาคม 2026</span></p>
+        <p><strong>ผู้โดยสาร:</strong> <span id="summary-passengers">ผู้ใหญ่ 1 คน</span></p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-edit-search" id="btn-toggle-edit-search" aria-expanded="false" aria-controls="edit-search-section">
+        แก้ไขการค้นหา
+      </button>
+    </section>
+
+    <!-- Collapsible Edit Search Section (In-place search edits) -->
+    <section class="inline-edit-search-section" id="edit-search-section" style="display: none;" aria-label="ฟอร์มแก้ไขการค้นหา">
+      <form id="inline-search-form" novalidate>
+        <!-- Radio choice -->
+        <fieldset class="search-type-group">
+          <legend class="sr-only">ประเภทการเดินทาง</legend>
+          <label class="radio-label">
+            <input type="radio" name="trip-type-edit" id="trip-one-way" value="one-way" checked>
+            <span>เที่ยวเดียว</span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="trip-type-edit" id="trip-round" value="round-trip">
+            <span>ไป-กลับ</span>
+          </label>
+        </fieldset>
+
+        <!-- Form fields grid -->
+        <div class="search-grid">
+          <div class="form-control">
+            <label for="origin-input" class="form-label">สถานีต้นทาง</label>
+            <div class="combobox-container">
+              <input type="text" id="origin-input" class="form-input" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="origin-listbox" placeholder="พิมพ์ชื่อจังหวัดต้นทาง" required>
+              <ul id="origin-listbox" class="listbox" role="listbox" aria-label="สถานีต้นทางที่แนะนำ"></ul>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label for="dest-input" class="form-label">สถานีปลายทาง</label>
+            <div class="combobox-container">
+              <input type="text" id="dest-input" class="form-input" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="dest-listbox" placeholder="พิมพ์ชื่อจังหวัดปลายทาง" required>
+              <ul id="dest-listbox" class="listbox" role="listbox" aria-label="สถานีปลายทางที่แนะนำ"></ul>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label for="dep-date" class="form-label">วันเดินทาง</label>
+            <input type="date" id="dep-date" class="form-input" required>
+          </div>
+
+          <div class="form-control" id="ret-date-group">
+            <label for="ret-date" class="form-label" id="ret-date-label" style="opacity: 0.5;">วันเดินทางกลับ</label>
+            <input type="date" id="ret-date" class="form-input" disabled aria-labelledby="ret-date-label">
+          </div>
+        </div>
+
+        <!-- Counter Group -->
+        <fieldset class="passenger-fieldset">
+          <legend class="passenger-legend">แก้ไขจำนวนผู้โดยสาร</legend>
+          <div class="passenger-row-grid">
+            <div class="passenger-type-col">
+              <div class="passenger-info-text">
+                <span class="passenger-title" id="lbl-adult">ผู้ใหญ่</span>
+                <span class="passenger-desc">อายุ 12 ปีขึ้นไป</span>
+              </div>
+              <div class="counter-group">
+                <button type="button" class="btn-counter" id="dec-adult" aria-label="ลดจำนวนผู้ใหญ่">-</button>
+                <span class="counter-val" id="val-adult">1</span>
+                <button type="button" class="btn-counter" id="inc-adult" aria-label="เพิ่มจำนวนผู้ใหญ่">+</button>
+              </div>
+            </div>
+            
+            <div class="passenger-type-col">
+              <div class="passenger-info-text">
+                <span class="passenger-title" id="lbl-child">เด็ก</span>
+                <span class="passenger-desc">อายุ 2 - 11 ปี</span>
+              </div>
+              <div class="counter-group">
+                <button type="button" class="btn-counter" id="dec-child" aria-label="ลดจำนวนเด็ก" disabled>-</button>
+                <span class="counter-val" id="val-child">0</span>
+                <button type="button" class="btn-counter" id="inc-child" aria-label="เพิ่มจำนวนเด็ก">+</button>
+              </div>
+            </div>
+            
+            <div class="passenger-type-col">
+              <div class="passenger-info-text">
+                <span class="passenger-title" id="lbl-senior">ผู้สูงอายุ</span>
+                <span class="passenger-desc">อายุ 60 ปีขึ้นไป</span>
+              </div>
+              <div class="counter-group">
+                <button type="button" class="btn-counter" id="dec-senior" aria-label="ลดจำนวนผู้สูงอายุ" disabled>-</button>
+                <span class="counter-val" id="val-senior">0</span>
+                <button type="button" class="btn-counter" id="inc-senior" aria-label="เพิ่มจำนวนผู้สูงอายุ">+</button>
+              </div>
+            </div>
+
+            <div class="passenger-type-col">
+              <div class="passenger-info-text">
+                <span class="passenger-title" id="lbl-special">ต้องการความช่วยเหลือพิเศษ</span>
+              </div>
+              <div class="counter-group">
+                <button type="button" class="btn-counter" id="dec-special" aria-label="ลดจำนวนผู้ต้องการความช่วยเหลือพิเศษ" disabled>-</button>
+                <span class="counter-val" id="val-special">0</span>
+                <button type="button" class="btn-counter" id="inc-special" aria-label="เพิ่มจำนวนผู้ต้องการความช่วยเหลือพิเศษ">+</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div style="display:flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-edit-search">ยกเลิก</button>
+          <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">ค้นหาใหม่</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Date Navigation Buttons (Previous Day / Next Day) -->
+    <nav class="date-navigation-bar" aria-label="แถบเปลี่ยนวันเดินทาง">
+      <button type="button" class="btn btn-secondary btn-date-nav" id="btn-prev-day" aria-label="วันก่อนหน้า">◀ วันก่อนหน้า</button>
+      <span class="current-date-nav" id="nav-date-display" aria-live="polite">15 กรกฎาคม 2026</span>
+      <button type="button" class="btn btn-secondary btn-date-nav" id="btn-next-day" aria-label="วันถัดไป">วันถัดไป ▶</button>
+    </nav>
+
+    <!-- Multi Column Selections layout -->
+    <div class="selection-columns">
+      
+      <!-- Left Column: Rich Filter Options -->
+      <aside class="results-column" aria-label="ตัวกรองและปรับแต่ง">
+        <fieldset class="filter-fieldset">
+          <legend class="filter-legend">ตัวเลือกการกรองข้อมูล</legend>
+          
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- Filter 1: Departure Time -->
+            <div class="filter-col-item">
+              <span class="filter-subheading" id="time-filter-heading">ช่วงเวลาออกเดินทาง</span>
+              <div class="filter-options" role="group" aria-labelledby="time-filter-heading">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-time" value="morning" checked>
+                  <span>เช้า (06:00 - 12:00 น.)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-time" value="afternoon" checked>
+                  <span>กลางวัน (12:00 - 18:00 น.)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-time" value="evening" checked>
+                  <span>เย็น (18:00 - 21:00 น.)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-time" value="night" checked>
+                  <span>กลางคืน (21:00 - 06:00 น.)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Filter 2: Price Limit (Range Slider) -->
+            <div class="filter-col-item">
+              <label for="price-range" class="filter-subheading">
+                ราคาสูงสุด: <span id="price-val-readout" style="color:var(--accent); font-weight:700;">1,000</span> บาท
+              </label>
+              <input type="range" id="price-range" min="200" max="1000" step="50" value="1000" style="width:100%; accent-color:var(--accent);">
+            </div>
+
+            <!-- Filter 3: Vehicle Type -->
+            <div class="filter-col-item">
+              <span class="filter-subheading" id="vehicle-filter-heading">ประเภทพาหนะ</span>
+              <div class="filter-options" role="group" aria-labelledby="vehicle-filter-heading">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-vehicle" value="bus-1" checked>
+                  <span>รถทัวร์ 1 ชั้น</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-vehicle" value="bus-2" checked>
+                  <span>รถทัวร์ 2 ชั้น</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-vehicle" value="van" checked>
+                  <span>รถตู้วีไอพี</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Filter 4: Seat Type -->
+            <div class="filter-col-item">
+              <span class="filter-subheading" id="seat-filter-heading">ประเภทที่นั่ง</span>
+              <div class="filter-options" role="group" aria-labelledby="seat-filter-heading">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-seat" value="VIP" checked>
+                  <span>VIP</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-seat" value="Standard" checked>
+                  <span>Standard</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Filter 5: Service Operators -->
+            <div class="filter-col-item">
+              <span class="filter-subheading" id="operator-filter-heading">บริษัทผู้ให้บริการ</span>
+              <div class="filter-options" role="group" aria-labelledby="operator-filter-heading">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-operator" value="ไทยทริป เอ็กซ์เพรส" checked>
+                  <span>ไทยทริป เอ็กซ์เพรส</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-operator" value="ไทยทริป พรีเมียม" checked>
+                  <span>ไทยทริป พรีเมียม</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-operator" value="ไทยทริป โลคอล" checked>
+                  <span>ไทยทริป โลคอล</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Filter 6: Amenities -->
+            <div class="filter-col-item">
+              <span class="filter-subheading" id="amenity-filter-heading">สิ่งอำนวยความสะดวก</span>
+              <div class="filter-options" role="group" aria-labelledby="amenity-filter-heading">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-amenity" value="air">
+                  <span>เครื่องปรับอากาศ (A/C)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-amenity" value="toilet">
+                  <span>ห้องน้ำบนรถ (Toilet)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-amenity" value="wifi">
+                  <span>Wi-Fi ฟรี</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="filter-amenity" value="charge">
+                  <span>จุดชาร์จไฟ USB</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Filter 7: Available Seats only -->
+            <div class="filter-col-item" style="border-top:1px solid var(--border); padding-top:15px;">
+              <label class="checkbox-label" style="font-weight: bold; color: var(--primary);">
+                <input type="checkbox" id="filter-only-available">
+                <span>เฉพาะเที่ยวที่ยังมีที่นั่งว่าง</span>
+              </label>
+            </div>
+
+          </div>
+        </fieldset>
+      </aside>
+
+      <!-- Right Column: Results list with sorting -->
+      <section class="seating-column" style="flex-grow:1;" aria-labelledby="trips-results-heading">
+        <h2 id="trips-results-heading" class="sr-only">เที่ยวรถทัวร์ที่เหมาะสม</h2>
+        
+        <!-- Results Sorting and Counter Header (WCAG 4.1.3 Live Announcement) -->
+        <div class="results-header-bar">
+          <div class="results-count-text" id="trips-count-label" aria-live="polite">
+            พบเที่ยวเดินทาง 6 เที่ยว
+          </div>
+          
+          <div class="sort-wrapper">
+            <label for="sort-select" class="form-label" style="display:inline-block; font-size:0.95rem; margin-bottom:0; margin-right:8px;">เรียงลำดับตาม:</label>
+            <select id="sort-select" class="select-custom" style="height:38px; min-height:38px; padding:6px 12px;">
+              <option value="earliest" selected>เวลาออกเดินทางเร็วที่สุด</option>
+              <option value="shortest">ระยะเวลาเดินทางสั้นที่สุด</option>
+              <option value="price-asc">ราคา: ต่ำไปสูง</option>
+              <option value="rating-desc">คะแนนผู้ให้บริการสูงสุด</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Trips List Container -->
+        <div class="trips-container" id="trips-list-container">
+          <!-- Populated by select-trip.js -->
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- Route Transit Detail Modal (Disclosing transfer points) -->
+  <div class="modal-overlay" id="transit-modal" role="dialog" aria-modal="true" aria-labelledby="transit-modal-title" style="display:none;">
+    <div class="modal-container" style="max-width: 500px;">
+      <h2 id="transit-modal-title" style="color:var(--primary); font-size:1.3rem;">รายละเอียดเส้นทางเปลี่ยนรถ</h2>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;">ข้อมูลจุดจอดรับส่งและช่วงเปลี่ยนถ่ายพาหนะของการเดินทางคันนี้</p>
+      
+      <div id="transit-details-content">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="modal-actions" style="margin-top:24px;">
+        <button type="button" class="btn btn-primary" id="btn-close-transit-modal">ปิดรายละเอียด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col footer-about">
+        <a href="index.html" class="logo" style="color: #ffffff;">
+          <svg class="logo-icon" viewBox="0 0 24 24" style="fill: #ffffff;"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5H6.5c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 6h11c.28 0 .53.18.62.44L19.33 10H4.67l1.21-3.56c.09-.26.34-.44.62-.44zM5 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm14 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+          <span>ไทยทริป</span>
+        </a>
+        <p>ไทยทริปเป็นระบบจองตั๋วรถทัวร์เพื่อตอบรับการเข้าถึงทางดิจิทัลอย่างเท่าเทียม มั่นใจทุกการเดินทาง สะดวก ปลอดภัย ตลอดเส้นทาง</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>บริการ</h3>
+        <ul>
+          <li><a href="index.html">ค้นหาตั๋วเดินทาง</a></li>
+          <li><a href="#promotions">โปรโมชันพิเศษ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ช่วยเหลือ</h3>
+        <ul>
+          <li><a href="#faq">คำถามที่พบบ่อย</a></li>
+          <li><a href="#accessibility-statement">นโยบายการเข้าถึงเว็บ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ข้อกฎหมาย</h3>
+        <ul>
+          <li><a href="#terms">เงื่อนไขการใช้บริการ</a></li>
+          <li><a href="#privacy">นโยบายความเป็นส่วนตัว</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>ช่องทางติดต่อ</h3>
+        <p style="font-size: 0.9rem; color: hsl(220, 20%, 85%); margin-bottom: 8px;">สายด่วน: 02-123-4567</p>
+        <div class="social-links">
+          <a href="#facebook" class="social-icon" aria-label="ติดตาม ไทยทริป บน Facebook">FB</a>
+          <a href="#twitter" class="social-icon" aria-label="ติดตาม ไทยทริป บน Twitter">TW</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 ไทยทริป (Thai Trip). สงวนลิขสิทธิ์ทั้งหมด (เว็บไซต์นี้ทำขึ้นเพื่อเป็นตัวอย่างสำหรับเวิร์กชอป WCAG เท่านั้น)</p>
+      <p>มาตรฐานการเข้าถึงเว็บ WCAG 2.2 AA</p>
+    </div>
+  </footer>
+
+</body>
+</html>
