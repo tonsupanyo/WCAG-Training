@@ -588,7 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </span>
           <span class="bus-operator">${trip.operator}</span>
           <div class="trip-reviews">
-            <span aria-hidden="true" style="color:var(--focus-outline);">${ratingStars} ${trip.rating}</span>
+            <span aria-hidden="true" style="color:#ae6500;">${ratingStars} ${trip.rating}</span>
             <span class="sr-only">คะแนนรีวิวผู้ให้บริการ ${trip.rating} จาก 5 ดาว</span>
           </div>
         </div>
