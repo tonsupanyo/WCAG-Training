@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div style="background-color: #0b1e3d; color: #ffffff; padding: 15px 24px; display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85;">E-Ticket Boarding Pass</span>
-          <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#ffffff;">ไทยทริป (Thai Trip)</h3>
+          <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#ffffff; background-color:#0b1e3d;">ไทยทริป (Thai Trip)</h3>
         </div>
         <div style="text-align:right;">
           <span style="font-size:0.75rem; opacity:0.85;">หมายเลขตั๋ว</span>
