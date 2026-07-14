@@ -54,6 +54,7 @@ body {
 /* Headings (Semantic structure) */
 h1, h2, h3, h4 {
   color: var(--primary);
+  background-color: #ffffff;
   font-weight: 700;
   line-height: 1.3;
 }
@@ -203,6 +204,7 @@ header {
   font-weight: 700;
   font-size: 1.5rem;
   color: var(--primary);
+  background-color: #ffffff;
   text-decoration: none;
 }
 
@@ -273,6 +275,7 @@ header {
 
 .search-hero h1 {
   color: #ffffff;
+  background-color: #0b1e3d;
   text-align: center;
   margin-bottom: 30px;
   font-size: 2.25rem;
@@ -511,6 +514,11 @@ header {
   align-items: center;
   gap: 6px;
   min-height: 36px;
+}
+
+.play-pause-text {
+  color: #ffffff;
+  background-color: #0b1e3d;
 }
 
 .carousel-inner {
@@ -2004,6 +2012,7 @@ footer {
 
 .footer-col a {
   color: hsl(220, 20%, 85%);
+  background-color: #0b1e3d;
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.2s;
@@ -2015,6 +2024,7 @@ footer {
 
 .footer-about p {
   color: hsl(220, 20%, 85%);
+  background-color: #0b1e3d;
   font-size: 0.95rem;
   line-height: 1.6;
   margin-top: 15px;
@@ -2036,7 +2046,7 @@ footer {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1e293b;
   color: #ffffff !important;
   font-weight: 700;
   font-size: 0.85rem;
@@ -2045,6 +2055,16 @@ footer {
 
 .social-icon:hover {
   background-color: var(--accent);
+}
+
+.footer-col p {
+  color: #f3f4f6;
+  background-color: #0b1e3d;
+}
+
+footer .logo {
+  color: #ffffff;
+  background-color: #0b1e3d;
 }
 
 .footer-bottom {

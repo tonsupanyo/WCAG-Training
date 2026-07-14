@@ -7,9 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (href === currentPath) {
       link.classList.add('active');
       link.setAttribute('aria-current', 'page');
+      link.style.backgroundColor = '#e6f0fa';
+      link.style.color = '#0b1e3d';
     } else {
       link.classList.remove('active');
       link.removeAttribute('aria-current');
+      link.style.backgroundColor = 'transparent';
+      link.style.color = '#4b5563';
     }
   });
 
