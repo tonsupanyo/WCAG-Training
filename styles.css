@@ -104,7 +104,7 @@ a:hover {
 
 /* Screen Reader Only Utility */
 .sr-only {
-  position: absolute;
+  display: inline-block;
   width: 1px;
   height: 1px;
   padding: 0;
@@ -157,12 +157,12 @@ a:hover {
 }
 
 .btn-primary {
-  background-color: var(--accent);
+  background-color: #ff6b6b;
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: var(--accent-light);
+  background-color: #ff8585;
   transform: translateY(-1px);
 }
 
@@ -171,19 +171,19 @@ a:hover {
 }
 
 .btn-secondary {
-  background-color: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
+  background-color: #ffffff;
+  color: #0b1e3d;
+  border: 2px solid #0b1e3d;
 }
 
 .btn-secondary:hover {
-  background-color: hsla(220, 75%, 16%, 0.05);
-  color: var(--primary-light);
+  background-color: #e6f0fa;
+  color: #1e3a8a;
 }
 
 /* Header & Navigation */
 .header-wrapper {
-  background-color: var(--bg-card);
+  background-color: #ffffff;
   box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
@@ -203,9 +203,14 @@ header {
   gap: 10px;
   font-weight: 700;
   font-size: 1.5rem;
-  color: var(--primary);
+  color: #0b1e3d;
   background-color: #ffffff;
   text-decoration: none;
+}
+
+.logo span {
+  color: #0b1e3d;
+  background-color: #ffffff;
 }
 
 .logo-icon {
@@ -221,7 +226,8 @@ header {
 }
 
 .nav-link {
-  color: var(--text-dark);
+  color: #0b1e3d;
+  background-color: #ffffff;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -233,7 +239,7 @@ header {
 
 .nav-link:hover, .nav-link.active {
   background-color: #e6f0fa;
-  color: var(--primary);
+  color: #0b1e3d;
   text-decoration: none;
 }
 
@@ -264,6 +270,7 @@ header {
    Search Container Section (Page 1)
    ---------------------------------------------------- */
 .search-hero {
+  background-color: #0b1e3d;
   background: linear-gradient(135deg, hsl(220, 75%, 14%) 0%, hsl(220, 60%, 25%) 100%);
   color: #ffffff;
   padding: 60px 0;
@@ -489,7 +496,7 @@ header {
 
 .carousel {
   position: relative;
-  background-color: var(--primary);
+  background-color: #0b1e3d;
   border-radius: var(--radius-lg);
   overflow: hidden;
   height: 320px;
@@ -580,12 +587,14 @@ header {
 
 .carousel-content h2 {
   color: #ffffff;
+  background-color: #0b1e3d;
   margin-bottom: 12px;
   font-size: 2rem;
 }
 
 .carousel-content p {
   color: hsl(220, 20%, 90%);
+  background-color: #0b1e3d;
   margin-bottom: 24px;
 }
 
@@ -1982,7 +1991,7 @@ header {
    Footer Section Styling
    ---------------------------------------------------- */
 footer {
-  background-color: var(--primary);
+  background-color: #0b1e3d;
   color: #ffffff;
   padding: 60px 0 40px 0;
   margin-top: 60px;
@@ -1996,6 +2005,7 @@ footer {
 
 .footer-col h3 {
   color: #ffffff;
+  background-color: #0b1e3d;
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 20px;
