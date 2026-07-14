@@ -177,6 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
         renderOptions(filteredList);
       }
     });
+
+    // Close listbox on blur after a small delay (to allow click selection of options)
+    input.addEventListener('blur', () => {
+      setTimeout(() => {
+        closeListbox();
+      }, 150);
+    });
   }
 
   setupAutocomplete('origin-input', 'origin-listbox');
