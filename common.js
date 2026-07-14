@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (href === currentPath) {
       link.classList.add('active');
       link.setAttribute('aria-current', 'page');
-      link.style.backgroundColor = '#e6f0fa';
-      link.style.color = '#0b1e3d';
+      link.style.backgroundColor = '#1e3a8a';
+      link.style.color = '#ffffff';
     } else {
       link.classList.remove('active');
       link.removeAttribute('aria-current');
       link.style.backgroundColor = 'transparent';
-      link.style.color = '#4b5563';
+      link.style.color = 'hsl(220, 20%, 85%)';
     }
   });
 

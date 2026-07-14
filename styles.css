@@ -183,7 +183,7 @@ a:hover {
 
 /* Header & Navigation */
 .header-wrapper {
-  background-color: #ffffff;
+  background-color: #0b1e3d;
   box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
@@ -203,14 +203,14 @@ header {
   gap: 10px;
   font-weight: 700;
   font-size: 1.5rem;
-  color: #0b1e3d;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #0b1e3d;
   text-decoration: none;
 }
 
 .logo span {
-  color: #0b1e3d;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #0b1e3d;
 }
 
 .logo-icon {
@@ -226,8 +226,8 @@ header {
 }
 
 .nav-link {
-  color: #0b1e3d;
-  background-color: #ffffff;
+  color: hsl(220, 20%, 85%);
+  background-color: #0b1e3d;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -238,8 +238,8 @@ header {
 }
 
 .nav-link:hover, .nav-link.active {
-  background-color: #e6f0fa;
-  color: #0b1e3d;
+  background-color: #1e3a8a;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -264,6 +264,28 @@ header {
   font-size: 0.9rem;
   min-height: 40px;
   cursor: pointer;
+}
+
+.header-actions .select-custom {
+  background-color: #1e3a8a;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.header-actions .select-custom option {
+  background-color: #0b1e3d;
+  color: #ffffff;
+}
+
+header .btn-secondary {
+  background-color: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+header .btn-secondary:hover {
+  background-color: #ffffff;
+  color: #0b1e3d;
 }
 
 /* ----------------------------------------------------
@@ -491,7 +513,8 @@ header {
    Carousel (Promotion Banner)
    ---------------------------------------------------- */
 .carousel-section {
-  margin: 40px 0;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .carousel {
@@ -660,7 +683,8 @@ header {
    Popular Routes Section & Cards
    ---------------------------------------------------- */
 .section-wrapper {
-  margin: 60px 0;
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 .routes-grid {
@@ -687,6 +711,7 @@ header {
   flex-direction: column;
   text-decoration: none;
   color: var(--text-dark);
+  height: 380px;
 }
 
 .route-card:hover {
@@ -729,6 +754,7 @@ header {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .route-title {
