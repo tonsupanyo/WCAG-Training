@@ -133,7 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('keydown', (e) => {
       const isOpen = listbox.style.display === 'block';
 
-      if (e.key === 'ArrowDown') {
+      if (e.key === 'Tab') {
+        if (isOpen) {
+          closeListbox();
+        }
+      } else if (e.key === 'ArrowDown') {
         e.preventDefault();
         if (!isOpen) {
           filteredList = stations;
