@@ -75,18 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         li.id = `${inputId}-opt-${index}`;
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', 'false');
-        li.setAttribute('tabindex', '0');
         li.textContent = item;
         
         li.addEventListener('click', () => {
           selectOption(index);
-        });
-
-        li.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            selectOption(index);
-          }
         });
 
         listbox.appendChild(li);
