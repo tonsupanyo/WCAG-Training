@@ -157,12 +157,12 @@ a:hover {
 }
 
 .btn-primary {
-  background-color: #ff6b6b;
+  background-color: #d54141;
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: #ff8585;
+  background-color: #c23333;
   transform: translateY(-1px);
 }
 
