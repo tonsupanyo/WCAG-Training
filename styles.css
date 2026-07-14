@@ -701,6 +701,7 @@ header .btn-secondary:hover {
 }
 
 .route-card {
+  width: 100%;
   background-color: var(--bg-card);
   border-radius: var(--radius-md);
   overflow: hidden;
