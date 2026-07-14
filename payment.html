@@ -24,26 +24,38 @@
         <span style="color: #ffffff; background-color: #0b1e3d;">ไทยทริป</span>
       </a>
 
-      <nav aria-label="เมนูหลัก">
-        <ul class="nav-menu">
-          <li><a href="index.html" class="nav-link">ค้นหาเที่ยวเดินทาง</a></li>
-          <li><a href="index.html#promotions" class="nav-link" aria-disabled="true">โปรโมชัน</a></li>
-          <li><a href="#booking-status" class="nav-link" aria-disabled="true">ตรวจสอบการจอง</a></li>
-          <li><a href="index.html#contact" class="nav-link" aria-disabled="true">ติดต่อเรา</a></li>
-        </ul>
-      </nav>
+      <!-- Hamburger Menu Button (WCAG 2.1/2.2 AA Keyboard Accessible) -->
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="header-nav-group" aria-label="เปิดเมนูหลัก">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="currentColor">
+          <rect y="4" width="24" height="2" rx="1"/>
+          <rect y="11" width="24" height="2" rx="1"/>
+          <rect y="18" width="24" height="2" rx="1"/>
+        </svg>
+      </button>
 
-      <div class="header-actions">
-        <div class="lang-selector">
-          <label for="lang-select" class="sr-only" style="color: #ffffff; background-color: #0b1e3d;">เลือกภาษา</label>
-          <select id="lang-select" class="select-custom">
-            <optgroup label="เลือกภาษา / Select Language">
-              <option value="th" selected>TH - ภาษาไทย</option>
-              <option value="en">EN - English</option>
-            </optgroup>
-          </select>
+      <!-- Collapsible Nav Group wrapper -->
+      <div class="header-nav-group" id="header-nav-group">
+        <nav aria-label="เมนูหลัก">
+          <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">ค้นหาเที่ยวเดินทาง</a></li>
+            <li><a href="index.html#promotions" class="nav-link" aria-disabled="true">โปรโมชัน</a></li>
+            <li><a href="#booking-status" class="nav-link" aria-disabled="true">ตรวจสอบการจอง</a></li>
+            <li><a href="index.html#contact" class="nav-link" aria-disabled="true">ติดต่อเรา</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <div class="lang-selector">
+            <label for="lang-select" class="sr-only" style="color: #ffffff; background-color: #0b1e3d;">เลือกภาษา</label>
+            <select id="lang-select" class="select-custom">
+              <optgroup label="เลือกภาษา / Select Language">
+                <option value="th" selected>TH - ภาษาไทย</option>
+                <option value="en">EN - English</option>
+              </optgroup>
+            </select>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="showToast('จำลองการเข้าสู่ระบบ', 'info')">เข้าสู่ระบบ</button>
         </div>
-        <button type="button" class="btn btn-secondary" onclick="showToast('จำลองการเข้าสู่ระบบ', 'info')">เข้าสู่ระบบ</button>
       </div>
     </header>
   </div>

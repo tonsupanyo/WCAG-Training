@@ -219,4 +219,32 @@ document.addEventListener('DOMContentLoaded', () => {
       goBtn.focus();
     }, 1000);
   });
+
+  // Mobile Hamburger Toggle (WCAG 2.1/2.2 AA Keyboard Accessible)
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navGroup = document.querySelector('.header-nav-group');
+  if (menuToggle && navGroup) {
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !isExpanded);
+      navGroup.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!menuToggle.contains(e.target) && !navGroup.contains(e.target)) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        navGroup.classList.remove('active');
+      }
+    });
+
+    // Close menu when Escape key is pressed
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navGroup.classList.contains('active')) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        navGroup.classList.remove('active');
+        menuToggle.focus();
+      }
+    });
+  }
 });
