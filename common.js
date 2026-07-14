@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
   // 1. Create and append modal HTML markup
   const modalHTML = `
-    <div id="booking-status-modal" class="a11y-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div id="booking-status" class="a11y-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
       <div class="a11y-modal-content">
         <div class="a11y-modal-header">
           <h2 id="modal-title">ตรวจสอบสถานะการจอง</h2>

@@ -42,11 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     card.className = 'form-container-card';
     card.style.padding = '0';
     card.style.overflow = 'hidden';
-    card.style.border = '2px solid var(--primary)';
+    card.style.border = '2px solid #0b1e3d';
 
     card.innerHTML = `
       <!-- Boarding Pass Header banner -->
-      <div style="background-color: var(--primary); color: #ffffff; padding: 15px 24px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="background-color: #0b1e3d; color: #ffffff; padding: 15px 24px; display:flex; justify-content:space-between; align-items:center;">
         <div>
           <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85;">E-Ticket Boarding Pass</span>
           <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#ffffff;">ไทยทริป (Thai Trip)</h3>
@@ -61,11 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="ticket-details-grid" style="padding: 24px; gap:20px; background-color:#ffffff;">
         <div>
           <span class="ticket-item-label">ชื่อผู้โดยสาร / Passenger Name</span>
-          <p class="ticket-item-val" style="color:var(--primary); font-size:1.1rem;">${name}</p>
+          <p class="ticket-item-val" style="color:#0b1e3d; font-size:1.1rem;">${name}</p>
         </div>
         <div>
           <span class="ticket-item-label">ตำแหน่งที่นั่ง / Seat No.</span>
-          <p class="ticket-item-val" style="color:var(--accent); font-size:1.25rem;">${seat}</p>
+          <p class="ticket-item-val" style="color:#d54141; font-size:1.25rem;">${seat}</p>
         </div>
         <div>
           <span class="ticket-item-label">เส้นทางเดินทาง / Route</span>
