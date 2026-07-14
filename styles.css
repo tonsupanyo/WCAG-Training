@@ -1374,7 +1374,7 @@ header .btn-secondary:hover {
 .seat.occupied {
   background-color: #f1f1f1;
   border-color: #d8d8d8;
-  color: #a1a1a1;
+  color: #6e6e6e;
   cursor: not-allowed;
 }
 

@@ -185,6 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const payErrorText = document.getElementById('payment-error-text');
   const btnSubmit = document.getElementById('btn-submit-payment');
 
+  const creditCardForm = document.getElementById('credit-card-form');
+  if (creditCardForm) {
+    creditCardForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      btnSubmit.click();
+    });
+  }
+
   const confirmModal = document.getElementById('confirm-payment-modal');
   const btnConfirmCancel = document.getElementById('btn-confirm-modal-cancel');
   const btnConfirmProceed = document.getElementById('btn-confirm-modal-proceed');
