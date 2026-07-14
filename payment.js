@@ -146,7 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-check-qr-status').addEventListener('click', () => {
     announceStatus('กำลังตรวจสอบสถานะการชำระเงินของรหัสคิวอาร์โค้ด...');
     setTimeout(() => {
-      alert('ไม่พบความเคลื่อนไหวการทำธุรกรรม กรุณาสแกนสลิป PromptPay แล้วลองใหม่อีกครั้ง');
+      alert('ระบบได้รับการยืนยันยอดเงินผ่านคิวอาร์โค้ดเรียบร้อยแล้ว! ระบบกำลังออกตั๋วเดินทางของท่าน...');
+      const successQuery = new URLSearchParams({
+        tripId: tripId,
+        seats: seatsParam,
+        price: priceParam
+      }).toString();
+      window.location.href = `booking-success.html?${successQuery}`;
     }, 1000);
   });
 
@@ -278,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openConfirmModal() {
     prevFocusElement = document.activeElement;
     confirmModal.style.display = 'flex';
+    confirmModal.classList.add('active');
     document.getElementById('modal-payment-confirm-content').style.display = 'block';
     document.getElementById('modal-payment-processing-content').style.display = 'none';
     
@@ -287,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function closeConfirmModal() {
     confirmModal.style.display = 'none';
+    confirmModal.classList.remove('active');
     if (prevFocusElement) prevFocusElement.focus();
     window.removeEventListener('keydown', handleConfirmModalKeys);
   }
