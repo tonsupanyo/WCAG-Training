@@ -75,10 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
         li.id = `${inputId}-opt-${index}`;
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', 'false');
+        li.setAttribute('tabindex', '0');
         li.textContent = item;
         
         li.addEventListener('click', () => {
           selectOption(index);
+        });
+
+        li.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectOption(index);
+          }
         });
 
         listbox.appendChild(li);
@@ -178,12 +186,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close listbox on blur after a small delay (to allow click selection of options)
-    input.addEventListener('blur', () => {
-      setTimeout(() => {
-        closeListbox();
-      }, 150);
-    });
+    // Close listbox when focus leaves the combobox container completely
+    const container = input.closest('.combobox-container');
+    if (container) {
+      container.addEventListener('focusout', (e) => {
+        setTimeout(() => {
+          if (!container.contains(document.activeElement)) {
+            closeListbox();
+          }
+        }, 150);
+      });
+    }
   }
 
   setupAutocomplete('origin-input', 'origin-listbox');
