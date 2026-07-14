@@ -2281,6 +2281,74 @@ div[id="contact"] {
   box-sizing: border-box;
 }
 
+/* Accessible Toast Notification System (WCAG 1.4.3 & 4.1.3) */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 90%;
+  max-width: 450px;
+  pointer-events: none;
+}
+
+.toast {
+  background-color: #0b1e3d; /* Dark Navy base */
+  color: #ffffff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: toast-in-anim 0.3s forwards, toast-out-anim 0.3s 2.7s forwards;
+  pointer-events: auto;
+  border-left: 5px solid #0056b3;
+  line-height: 1.4;
+}
+
+.toast.toast-success {
+  background-color: #1b5e20; /* Accessible dark green on white text */
+  border-left-color: #4caf50;
+}
+
+.toast.toast-error {
+  background-color: #c62828; /* Accessible dark red on white text */
+  border-left-color: #ef5350;
+}
+
+.toast.toast-warning {
+  background-color: #ae6500; /* Accessible dark orange/amber on white text */
+  border-left-color: #ff9800;
+}
+
+.toast.toast-info {
+  background-color: #0b1e3d; /* Dark Navy */
+  border-left-color: #2196f3;
+}
+
+@keyframes toast-in-anim {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out-anim {
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
 
 
 

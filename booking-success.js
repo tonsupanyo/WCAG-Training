@@ -126,12 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Email simulation
   document.getElementById('btn-email-tickets').addEventListener('click', () => {
-    alert('จำลองการจัดส่งรายละเอียดตั๋ว E-Ticket และสลิปใบเสร็จชำระเงินไปยังอีเมลติดต่อ: somchaimail@mail.com สำเร็จแล้ว!');
+    window.showToast('จำลองการจัดส่งรายละเอียดตั๋ว E-Ticket และสลิปใบเสร็จชำระเงินไปยังอีเมลติดต่อ: somchaimail@mail.com สำเร็จแล้ว!', 'success');
   });
 
   // Calendar simulation
   document.getElementById('btn-add-calendar').addEventListener('click', () => {
-    alert('จำลองการเพิ่มรอบเดินทางรถทัวร์ไทยทริป (15 กรกฎาคม 2569 เวลา ' + trip.time + ') ลงในตารางปฏิทิน Google/Apple Calendar ของคุณเสร็จสิ้น');
+    window.showToast('จำลองการเพิ่มรอบเดินทางรถทัวร์ไทยทริป (15 กรกฎาคม 2569 เวลา ' + trip.time + ') ลงในตารางปฏิทิน Google/Apple Calendar ของคุณเสร็จสิ้น', 'success');
   });
 
 });

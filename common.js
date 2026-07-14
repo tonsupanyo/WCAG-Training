@@ -1,3 +1,34 @@
+// Accessible Toast Notification Utility (WCAG 4.1.3 Status Messages)
+window.showToast = function(message, type = 'info', duration = 3000) {
+  let container = document.getElementById('a11y-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'a11y-toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  
+  let icon = 'ℹ️';
+  if (type === 'success') icon = '✅';
+  if (type === 'error') icon = '❌';
+  if (type === 'warning') icon = '⚠️';
+
+  toast.innerHTML = `<span aria-hidden="true">${icon}</span> <span>${message}</span>`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+    if (container.children.length === 0) {
+      container.remove();
+    }
+  }, duration + 300);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   // Highlight current page in navigation
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -43,7 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Simulate reload or text switch in a real site
       setTimeout(() => {
-        alert(selectedLang === 'en' ? 'Language switched to English (Demo)' : 'เปลี่ยนเป็นภาษาไทย (ตัวอย่าง)');
+        window.showToast(
+          selectedLang === 'en' ? 'Language switched to English (Demo)' : 'เปลี่ยนเป็นภาษาไทย (ตัวอย่าง)',
+          'success'
+        );
       }, 100);
     });
   }

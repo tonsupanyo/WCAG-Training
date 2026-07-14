@@ -360,8 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        alert('หมดเวลาจองสำรองที่นั่งชั่วคราว ระบบจะนำท่านกลับไปยังหน้าแรกเพื่อค้นหาเที่ยวรถใหม่');
-        window.location.href = 'index.html';
+        window.showToast('หมดเวลาจองสำรองที่นั่งชั่วคราว ระบบจะนำท่านกลับไปยังหน้าแรกเพื่อค้นหาเที่ยวรถใหม่', 'error');
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 2500);
       }
     }, 1000);
   }
@@ -402,8 +404,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnModalCancel.addEventListener('click', () => {
     clearInterval(timerInterval);
-    alert('ทำรายการจองตั๋วถูกยกเลิก ระบบจะนำคุณกลับไปยังหน้าหลัก');
-    window.location.href = 'index.html';
+    window.showToast('ทำรายการจองตั๋วถูกยกเลิก ระบบจะนำคุณกลับไปยังหน้าหลัก', 'warning');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 2000);
   });
 
   function handleModalKeys(e) {

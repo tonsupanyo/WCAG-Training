@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       qrDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
       if (qrTimeLeft <= 0) {
-        alert('คิวอาร์โค้ดหมดอายุการชำระเงินแล้ว ระบบกำลังสร้างคิวอาร์โค้ดใหม่ให้คุณ');
+        window.showToast('คิวอาร์โค้ดหมดอายุการชำระเงินแล้ว ระบบกำลังสร้างคิวอาร์โค้ดใหม่ให้คุณ', 'warning');
         qrTimeLeft = 180;
       }
     }
@@ -146,13 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-check-qr-status').addEventListener('click', () => {
     announceStatus('กำลังตรวจสอบสถานะการชำระเงินของรหัสคิวอาร์โค้ด...');
     setTimeout(() => {
-      alert('ระบบได้รับการยืนยันยอดเงินผ่านคิวอาร์โค้ดเรียบร้อยแล้ว! ระบบกำลังออกตั๋วเดินทางของท่าน...');
+      window.showToast('ระบบได้รับการยืนยันยอดเงินผ่านคิวอาร์โค้ดเรียบร้อยแล้ว! ระบบกำลังออกตั๋วเดินทางของท่าน...', 'success');
       const successQuery = new URLSearchParams({
         tripId: tripId,
         seats: seatsParam,
         price: priceParam
       }).toString();
-      window.location.href = `booking-success.html?${successQuery}`;
+      setTimeout(() => {
+        window.location.href = `booking-success.html?${successQuery}`;
+      }, 1500);
     }, 1000);
   });
 
@@ -173,8 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (holdTime <= 0) {
       clearInterval(holdInterval);
-      alert('เวลาในการสงวนที่นั่งสิ้นสุดลงแล้ว ระบบจะนำท่านกลับไปยังหน้าแรกเพื่อเริ่มจองตั๋วใหม่');
-      window.location.href = 'index.html';
+      window.showToast('เวลาในการสงวนที่นั่งสิ้นสุดลงแล้ว ระบบจะนำท่านกลับไปยังหน้าแรกเพื่อเริ่มจองตั๋วใหม่', 'error');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 2500);
     }
   }, 1000);
 

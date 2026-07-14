@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const p1Phone = document.getElementById('p1-phone').value.trim();
 
       if (!p1Name) {
-        alert('กรุณากรอกชื่อ - นามสกุล ของผู้โดยสารคนที่ 1 ก่อนเลือกตัวเลือกนี้');
+        window.showToast('กรุณากรอกชื่อ - นามสกุล ของผู้โดยสารคนที่ 1 ก่อนเลือกตัวเลือกนี้', 'warning');
         chkUseP1.checked = false;
         return;
       }
