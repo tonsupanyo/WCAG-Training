@@ -157,13 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const lblId = document.getElementById(`lbl-p${pIndex}-id`);
     const inputId = document.getElementById(`p${pIndex}-id`);
     const errorId = document.getElementById(`p${pIndex}-id-error`);
+    const seat = seatsArray[pIndex - 1] || '';
 
     if (val === 'thai') {
-      lblId.textContent = "หมายเลขประจำตัวประชาชน";
+      lblId.innerHTML = `หมายเลขประจำตัวประชาชน <span class="sr-only">ของที่นั่ง ${seat}</span>`;
       inputId.placeholder = "ระบุเลขประจำตัวประชาชน 13 หลัก";
       errorId.textContent = "กรุณากรอกเลขบัตรประชาชน 13 หลักให้ถูกต้อง";
     } else {
-      lblId.textContent = "หมายเลขหนังสือเดินทาง (Passport No.)";
+      lblId.innerHTML = `หมายเลขหนังสือเดินทาง (Passport No.) <span class="sr-only">ของที่นั่ง ${seat}</span>`;
       inputId.placeholder = "ระบุเลขหนังสือเดินทางพาสปอร์ต";
       errorId.textContent = "กรุณากรอกเลขที่หนังสือเดินทางให้ถูกต้อง";
     }

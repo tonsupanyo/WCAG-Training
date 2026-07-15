@@ -2082,7 +2082,6 @@ footer {
 
 .social-icon {
   display: inline-flex;
-  aria-label: inherit;
   align-items: center;
   justify-content: center;
   width: 36px;
