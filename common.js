@@ -29,6 +29,22 @@ window.showToast = function(message, type = 'info', duration = 3000) {
   }, duration + 300);
 };
 
+// Accessible Screen Reader Announcement Utility (WCAG 4.1.3 Status Messages)
+window.announceA11y = function(message) {
+  let liveRegion = document.getElementById('a11y-announcer');
+  if (!liveRegion) {
+    liveRegion = document.createElement('div');
+    liveRegion.id = 'a11y-announcer';
+    liveRegion.className = 'sr-only';
+    liveRegion.setAttribute('aria-live', 'polite');
+    document.body.appendChild(liveRegion);
+  }
+  liveRegion.textContent = '';
+  setTimeout(() => {
+    liveRegion.textContent = message;
+  }, 50);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   // Highlight current page in navigation
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
@@ -201,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       resultContainer.innerHTML = `
         <div class="booking-result-box">
-          <p class="success-title">✓ พบข้อมูลการจองตั๋วเดินทาง</p>
+          <h3 class="success-title" id="search-result-title" tabindex="-1" style="outline: none;">✓ พบข้อมูลการจองตั๋วเดินทาง</h3>
           <p><strong>รหัสการจอง:</strong> ${refCode}</p>
           <p><strong>ผู้เดินทาง:</strong> นายสมชาย ใจดี</p>
           <p><strong>เส้นทาง:</strong> ${routeText}</p>
@@ -216,7 +232,13 @@ document.addEventListener('DOMContentLoaded', () => {
       goBtn.addEventListener('click', () => {
         window.location.href = `booking-success.html?tripId=${tripId}&seats=${seatNo}&price=${priceText}`;
       });
-      goBtn.focus();
+      
+      const resultTitle = resultContainer.querySelector('#search-result-title');
+      if (resultTitle) {
+        resultTitle.focus();
+      }
+
+      window.announceA11y(`ระบบพบข้อมูลการจองตั๋วเดินทางของคุณแล้ว รหัสการจองคือ ${refCode} เส้นทาง ${routeText} สถานะชำระเงินสำเร็จแล้ว คุณสามารถกด Tab เพื่อดูตั๋วเดินทางได้`);
     }, 1000);
   });
 
