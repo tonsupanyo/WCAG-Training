@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <!-- Boarding Pass Header banner -->
       <div style="background-color: #0b1e3d; color: #ffffff; padding: 15px 24px; display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85;">E-Ticket Boarding Pass</span>
-          <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#ffffff; background-color:#0b1e3d;">ไทยทริป (Thai Trip)</h3>
+          <span lang="en" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85;">E-Ticket Boarding Pass</span>
+          <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#ffffff; background-color:#0b1e3d;">ไทยทริป (<span lang="en">Thai Trip</span>)</h3>
         </div>
         <div style="text-align:right;">
           <span style="font-size:0.75rem; opacity:0.85;">หมายเลขตั๋ว</span>
@@ -60,31 +60,31 @@ document.addEventListener('DOMContentLoaded', () => {
       <!-- Boarding Pass Content Grid -->
       <div class="ticket-details-grid" style="padding: 24px; gap:20px; background-color:#ffffff;">
         <div>
-          <span class="ticket-item-label">ชื่อผู้โดยสาร / Passenger Name</span>
+          <span class="ticket-item-label">ชื่อผู้โดยสาร / <span lang="en">Passenger Name</span></span>
           <p class="ticket-item-val" style="color:#0b1e3d; font-size:1.1rem;">${name}</p>
         </div>
         <div>
-          <span class="ticket-item-label">ตำแหน่งที่นั่ง / Seat No.</span>
+          <span class="ticket-item-label">ตำแหน่งที่นั่ง / <span lang="en">Seat No.</span></span>
           <p class="ticket-item-val" style="color:#d54141; font-size:1.25rem;">${seat}</p>
         </div>
         <div>
-          <span class="ticket-item-label">เส้นทางเดินทาง / Route</span>
+          <span class="ticket-item-label">เส้นทางเดินทาง / <span lang="en">Route</span></span>
           <p class="ticket-item-val">${trip.route}</p>
         </div>
         <div>
-          <span class="ticket-item-label">วันออกเดินทาง / Date</span>
+          <span class="ticket-item-label">วันออกเดินทาง / <span lang="en">Date</span></span>
           <p class="ticket-item-val">15 กรกฎาคม 2569</p>
         </div>
         <div>
-          <span class="ticket-item-label">เวลาออกรถ / Departure Time</span>
+          <span class="ticket-item-label">เวลาออกรถ / <span lang="en">Departure Time</span></span>
           <p class="ticket-item-val" style="color:var(--success);">${trip.time}</p>
         </div>
         <div>
-          <span class="ticket-item-label">ชานชาลา / Platform Gate</span>
+          <span class="ticket-item-label">ชานชาลา / <span lang="en">Platform Gate</span></span>
           <p class="ticket-item-val">ชานชาลาที่ ${trip.gate}</p>
         </div>
         <div>
-          <span class="ticket-item-label">หมายเลขรถ / Coach No.</span>
+          <span class="ticket-item-label">หมายเลขรถ / <span lang="en">Coach No.</span></span>
           <p class="ticket-item-val">${trip.busNo} (${trip.class})</p>
         </div>
         
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <rect x="15" y="45" width="10" height="10" />
               <rect x="75" y="75" width="20" height="20" />
             </svg>
-            <span style="font-size:0.6rem; font-family:monospace; display:block; margin-top:4px; color:var(--text-muted);">SCAN CHECK</span>
+            <span lang="en" style="font-size:0.6rem; font-family:monospace; display:block; margin-top:4px; color:var(--text-muted);">SCAN CHECK</span>
           </div>
         </div>
 
