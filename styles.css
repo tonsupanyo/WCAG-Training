@@ -10,7 +10,7 @@
   --bg-card: hsl(0, 0%, 100%);        /* White for card backgrounds */
   --text-dark: hsl(220, 40%, 10%);    /* Body text (Almost Black) */
   --text-muted: hsl(220, 15%, 35%);   /* Secondary text */
-  --border: hsl(220, 15%, 80%);       /* Border gray */
+  --border: hsl(220, 15%, 55%);       /* Border gray (WCAG AA 3.72:1 contrast compliant) */
   --error: hsl(0, 80%, 35%);          /* Dark Red for error states (Contrast > 4.5:1) */
   --success: hsl(140, 70%, 25%);      /* Dark Green for success states */
   --focus-outline: hsl(35, 100%, 45%);/* High-visibility Amber/Orange for focus indicator */
@@ -1850,6 +1850,23 @@ header .btn-secondary:hover {
   .ticket-card::after {
     display: none;
   }
+  
+  /* Ticket print styling overrides for SC 1.4.3 */
+  .boarding-pass-header {
+    background-color: transparent !important;
+    color: #000000 !important;
+    border-bottom: 2px solid #000000 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .boarding-pass-title {
+    background-color: transparent !important;
+    color: #000000 !important;
+  }
+  .boarding-pass-sub,
+  .boarding-pass-num {
+    color: #000000 !important;
+  }
 }
 
 /* ----------------------------------------------------
@@ -2034,7 +2051,8 @@ footer {
   gap: 40px;
 }
 
-.footer-col h3 {
+.footer-col h3,
+.footer-col-title {
   color: #ffffff;
   background-color: #0b1e3d;
   font-size: 1.1rem;

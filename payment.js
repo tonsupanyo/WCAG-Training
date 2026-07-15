@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetIdx !== null) {
         e.preventDefault();
         tabButtons[targetIdx].focus();
-        switchPaymentTab(tabButtons[targetIdx]);
+        // Shift focus but do not select automatically (SC 2.1.1 & 1.3.1 manual selection)
       }
     });
   });
@@ -135,8 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const s = qrTimeLeft % 60;
       qrDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
+      // Warn user at 30 seconds left using non-blocking voice & Toast
+      if (qrTimeLeft === 30) {
+        window.showToast('คิวอาร์โค้ดใกล้จะหมดอายุในอีก 30 วินาที (กดปุ่มขอรหัสใหม่เพื่อรีเซ็ตเวลา)', 'warning');
+        announceStatus('เวลาสำหรับการสแกนคิวอาร์โค้ดเหลืออีก 30 วินาที คุณสามารถกดปุ่มขอคิวอาร์โค้ดใหม่ด้านล่างเพื่อรีเซ็ตเวลากลับเป็น 3 นาทีได้');
+      }
+
       if (qrTimeLeft <= 0) {
         window.showToast('คิวอาร์โค้ดหมดอายุการชำระเงินแล้ว ระบบกำลังสร้างคิวอาร์โค้ดใหม่ให้คุณ', 'warning');
+        announceStatus('คิวอาร์โค้ดชำระเงินใบเดิมหมดอายุการใช้งานแล้ว ระบบได้ทำการสร้างคิวอาร์โค้ดชำระเงินใบใหม่ให้คุณเรียบร้อยแล้ว');
         qrTimeLeft = 180;
       }
     }
@@ -158,6 +165,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   });
 
+  // Refresh QR code click listener
+  const btnRefreshQr = document.getElementById('btn-refresh-qr');
+  if (btnRefreshQr) {
+    btnRefreshQr.addEventListener('click', () => {
+      qrTimeLeft = 180;
+      const m = Math.floor(qrTimeLeft / 60);
+      const s = qrTimeLeft % 60;
+      qrDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      announceStatus('สร้างคิวอาร์โค้ดชำระเงินใบใหม่เรียบร้อยแล้ว');
+      window.showToast('สร้างคิวอาร์โค้ดชำระเงินใบใหม่สำเร็จ', 'success');
+    });
+  }
+
 
   // ----------------------------------------------------
   // 4. Hold Reservation Timer 10:00 (WCAG 2.2.1 Timing)
@@ -166,6 +186,66 @@ document.addEventListener('DOMContentLoaded', () => {
   const holdDisplay = document.getElementById('payment-hold-timer');
   const btnExtendHold = document.getElementById('btn-extend-payment-timer');
 
+  // Timer Warning modal elements (standardized with select-seat.js for SC 2.2.1)
+  const timerModal = document.getElementById('hold-timer-modal');
+  const timerModalSec = document.getElementById('timer-modal-sec');
+  const btnModalExtend = document.getElementById('btn-timer-modal-extend');
+  const btnModalCancel = document.getElementById('btn-timer-modal-cancel');
+  let prevFocusEl = null;
+
+  function openTimerModal() {
+    prevFocusEl = document.activeElement;
+    timerModal.style.display = 'flex';
+    timerModal.classList.add('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(true);
+    btnModalExtend.focus();
+    announceStatus('แจ้งเตือนการจอง: เวลาชำระเงินล็อกตั๋วของคุณใกล้หมดลงแล้ว');
+    window.addEventListener('keydown', handleTimerModalKeys);
+  }
+
+  function closeTimerModal() {
+    timerModal.style.display = 'none';
+    timerModal.classList.remove('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(false);
+    if (prevFocusEl) prevFocusEl.focus();
+    window.removeEventListener('keydown', handleTimerModalKeys);
+  }
+
+  btnModalExtend.addEventListener('click', () => {
+    holdTime = 600;
+    closeTimerModal();
+    announceStatus('ขยายเวลาจองสำเร็จแล้ว ระบบตั้งเวลานับถอยหลังใหม่เป็น 10 นาที');
+  });
+
+  btnModalCancel.addEventListener('click', () => {
+    clearInterval(holdInterval);
+    window.showToast('ทำรายการจองตั๋วถูกยกเลิก ระบบจะนำคุณกลับไปยังหน้าหลัก', 'warning');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 2000);
+  });
+
+  function handleTimerModalKeys(e) {
+    if (!timerModal.classList.contains('active')) return;
+    if (e.key === 'Escape') {
+      closeTimerModal();
+    }
+    if (e.key === 'Tab') {
+      const btns = [btnModalCancel, btnModalExtend];
+      if (e.shiftKey) {
+        if (document.activeElement === btns[0]) {
+          e.preventDefault();
+          btns[1].focus();
+        }
+      } else {
+        if (document.activeElement === btns[1]) {
+          e.preventDefault();
+          btns[0].focus();
+        }
+      }
+    }
+  }
+
   const holdInterval = setInterval(() => {
     holdTime--;
     const mins = Math.floor(holdTime / 60);
@@ -173,8 +253,21 @@ document.addEventListener('DOMContentLoaded', () => {
     holdDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     holdDisplay.setAttribute('aria-label', `เวลาสำรองล็อกที่นั่งที่เหลือ ${mins} นาที ${secs} วินาที`);
 
+    // Update modal text if active
+    if (timerModal.classList.contains('active')) {
+      timerModalSec.textContent = holdTime;
+    }
+
+    // Pop warning dialog modal when 2 minutes left (120s)
+    if (holdTime === 120) {
+      openTimerModal();
+    }
+
     if (holdTime <= 0) {
       clearInterval(holdInterval);
+      if (timerModal.classList.contains('active')) {
+        closeTimerModal();
+      }
       window.showToast('เวลาในการสงวนที่นั่งสิ้นสุดลงแล้ว ระบบจะนำท่านกลับไปยังหน้าแรกเพื่อเริ่มจองตั๋วใหม่', 'error');
       setTimeout(() => {
         window.location.href = 'index.html';

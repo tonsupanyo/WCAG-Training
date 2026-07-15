@@ -46,14 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     card.innerHTML = `
       <!-- Boarding Pass Header banner -->
-      <div style="background-color: #0b1e3d; color: #ffffff; padding: 15px 24px; display:flex; justify-content:space-between; align-items:center;">
+      <div class="boarding-pass-header" style="background-color: #0b1e3d; color: #ffffff; padding: 15px 24px; display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <span lang="en" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85;">E-Ticket Boarding Pass</span>
-          <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:#ffffff; background-color:#0b1e3d;">ไทยทริป (<span lang="en">Thai Trip</span>)</h3>
+          <span class="boarding-pass-sub" lang="en" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85;">E-Ticket Boarding Pass</span>
+          <h3 class="boarding-pass-title" style="margin:0; font-size:1.25rem; font-weight:800; color:#ffffff; background-color:#0b1e3d;">ไทยทริป (<span lang="en">Thai Trip</span>)</h3>
         </div>
         <div style="text-align:right;">
-          <span style="font-size:0.75rem; opacity:0.85;">หมายเลขตั๋ว</span>
-          <div style="font-family:monospace; font-weight:bold; font-size:1.05rem;">${tktNum}</div>
+          <span class="boarding-pass-sub" style="font-size:0.75rem; opacity:0.85;">หมายเลขตั๋ว</span>
+          <div class="boarding-pass-num" style="font-family:monospace; font-weight:bold; font-size:1.05rem;">${tktNum}</div>
         </div>
       </div>
 
