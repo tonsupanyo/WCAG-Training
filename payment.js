@@ -199,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
     timerModal.classList.add('active');
     if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(true);
     btnModalExtend.focus();
-    announceStatus('แจ้งเตือนการจอง: เวลาชำระเงินล็อกตั๋วของคุณใกล้หมดลงแล้ว');
     window.addEventListener('keydown', handleTimerModalKeys);
   }
 

@@ -255,6 +255,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (val > cfg.min) {
         valSpan.textContent = --val;
         updateCounterButtons();
+        let name = '';
+        if (cfg.type === 'adult') name = 'ผู้ใหญ่';
+        if (cfg.type === 'child') name = 'เด็ก';
+        if (cfg.type === 'senior') name = 'ผู้สูงอายุ';
+        if (cfg.type === 'special') name = 'ผู้ต้องการความช่วยเหลือพิเศษ';
+        announceStatus(`ลดจำนวนผู้โดยสารประเภท ${name} เหลือ ${val} คน`);
       }
     });
 
@@ -263,6 +269,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (val < 9) {
         valSpan.textContent = ++val;
         updateCounterButtons();
+        let name = '';
+        if (cfg.type === 'adult') name = 'ผู้ใหญ่';
+        if (cfg.type === 'child') name = 'เด็ก';
+        if (cfg.type === 'senior') name = 'ผู้สูงอายุ';
+        if (cfg.type === 'special') name = 'ผู้ต้องการความช่วยเหลือพิเศษ';
+        announceStatus(`เพิ่มจำนวนผู้โดยสารประเภท ${name} เป็น ${val} คน`);
       }
     });
   });
@@ -571,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Build transit/transfer layout link if exist
       let transferHtml = '';
       if (trip.transfers) {
-        transferHtml = `<button type="button" class="btn-transit-detail" data-trip-id="${trip.id}" aria-label="ดูรายละเอียดการต่อรถของเที่ยวเดินทางหมายเลข ${trip.id}">🔀 เปลี่ยนพาหนะต่อระหว่างเดินทาง</button>`;
+        transferHtml = `<button type="button" class="btn-transit-detail" data-trip-id="${trip.id}" aria-label="เปลี่ยนพาหนะต่อระหว่างเดินทาง เที่ยวรถหมายเลข ${trip.id}">🔀 เปลี่ยนพาหนะต่อระหว่างเดินทาง</button>`;
       }
 
       card.innerHTML = `

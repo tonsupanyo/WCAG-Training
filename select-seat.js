@@ -215,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           
           btn.setAttribute('aria-label', `${labelText} ว่าง ราคา ${selectedTrip.price + (isExtra ? 50 : 0)} บาท`);
+          btn.setAttribute('aria-pressed', 'false');
           btn.innerHTML = iconText;
 
           btn.addEventListener('click', () => {
@@ -244,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
       selectedSeats.push(seatId);
       buttonEl.classList.remove('available');
       buttonEl.classList.add('selected');
-      buttonEl.setAttribute('aria-selected', 'true');
+      buttonEl.setAttribute('aria-pressed', 'true');
       buttonEl.setAttribute('aria-label', `${baseLabel} เลือกแล้ว`);
       buttonEl.innerHTML = '✓';
       announceA11y(`เลือกที่นั่งหมายเลข ${seatId} สำเร็จ`);
@@ -253,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
       selectedSeats.splice(idx, 1);
       buttonEl.classList.remove('selected');
       buttonEl.classList.add('available');
-      buttonEl.removeAttribute('aria-selected');
+      buttonEl.setAttribute('aria-pressed', 'false');
       
       let icon = seatId;
       if (seatId.startsWith('1') || seatId.startsWith('2')) icon = '💎';
@@ -386,7 +387,6 @@ document.addEventListener('DOMContentLoaded', () => {
     timerModal.classList.add('active');
     if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(true);
     btnModalExtend.focus(); // focus on confirmation
-    announceA11y('แจ้งเตือนการจอง: เวลาล็อกจองที่นั่งของคุณใกล้หมดลงแล้ว');
     window.addEventListener('keydown', handleModalKeys);
   }
 

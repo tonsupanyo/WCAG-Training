@@ -356,6 +356,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    carousel.addEventListener('focusin', () => {
+      if (isPlaying) {
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
+      }
+    });
+
+    carousel.addEventListener('focusout', () => {
+      if (isPlaying) {
+        autoPlayInterval = setInterval(nextSlide, 5000);
+      }
+    });
+
     // Start auto slide initially
     startAutoPlay();
   }

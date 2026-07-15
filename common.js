@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">ค้นหาข้อมูล</button>
         </form>
-        <div id="booking-search-result" aria-live="polite"></div>
+        <div id="booking-search-result"></div>
       </div>
     </div>
   `;
@@ -254,8 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (resultTitle) {
         resultTitle.focus();
       }
-
-      window.announceA11y(`ระบบพบข้อมูลการจองตั๋วเดินทางของคุณแล้ว รหัสการจองคือ ${refCode} เส้นทาง ${routeText} สถานะชำระเงินสำเร็จแล้ว คุณสามารถกด Tab เพื่อดูตั๋วเดินทางได้`);
     }, 1000);
   });
 
