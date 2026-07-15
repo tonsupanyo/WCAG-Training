@@ -697,6 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Open Modal
     transitModal.style.display = 'flex';
     transitModal.classList.add('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(true);
     
     // Focus close button
     btnCloseTransit.focus();
@@ -708,6 +709,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeTransitModal() {
     transitModal.style.display = 'none';
     transitModal.classList.remove('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(false);
 
     if (transitTriggerBtn) {
       transitTriggerBtn.focus();

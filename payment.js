@@ -218,12 +218,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const cCvv = document.getElementById('card-cvv');
 
       let hasErrors = false;
-      [cName, cNum, cExp, cCvv].forEach(el => el.classList.remove('error'));
+      [cName, cExp, cCvv].forEach(el => {
+        el.classList.remove('error');
+        el.removeAttribute('aria-describedby');
+      });
+      cNum.classList.remove('error');
+      cNum.setAttribute('aria-describedby', 'card-fail-tip');
       document.querySelectorAll('.error-message-text').forEach(el => el.style.display = 'none');
 
       if (!cName.value.trim()) {
         cName.classList.add('error');
         document.getElementById('card-name-error').style.display = 'block';
+        cName.setAttribute('aria-describedby', 'card-name-error');
         hasErrors = true;
       }
       
@@ -231,18 +237,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!numbersOnly || numbersOnly.length !== 16 || isNaN(numbersOnly)) {
         cNum.classList.add('error');
         document.getElementById('card-number-error').style.display = 'block';
+        cNum.setAttribute('aria-describedby', 'card-fail-tip card-number-error');
         hasErrors = true;
       }
 
       if (!cExp.value.trim() || !cExp.value.match(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/)) {
         cExp.classList.add('error');
         document.getElementById('card-expiry-error').style.display = 'block';
+        cExp.setAttribute('aria-describedby', 'card-expiry-error');
         hasErrors = true;
       }
 
       if (!cCvv.value.trim() || cCvv.value.trim().length !== 3 || isNaN(cCvv.value)) {
         cCvv.classList.add('error');
         document.getElementById('card-cvv-error').style.display = 'block';
+        cCvv.setAttribute('aria-describedby', 'card-cvv-error');
         hasErrors = true;
       }
 
@@ -261,9 +270,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Bank Transfer Validation
     if (activeTabId === 'pane-bank') {
       const file = document.getElementById('bank-slip-file');
+      file.classList.remove('error');
+      file.removeAttribute('aria-describedby');
+      document.getElementById('bank-slip-error').style.display = 'none';
+
       if (file.files.length === 0) {
         file.classList.add('error');
         document.getElementById('bank-slip-error').style.display = 'block';
+        file.setAttribute('aria-describedby', 'bank-slip-error');
         showPaymentError('กรุณาแนบไฟล์สลิปหลักฐานโอนเงินเพื่อดำเนินการตรวจสอบข้อมูล');
         return;
       }
@@ -289,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     prevFocusElement = document.activeElement;
     confirmModal.style.display = 'flex';
     confirmModal.classList.add('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(true);
     document.getElementById('modal-payment-confirm-content').style.display = 'block';
     document.getElementById('modal-payment-processing-content').style.display = 'none';
     
@@ -299,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeConfirmModal() {
     confirmModal.style.display = 'none';
     confirmModal.classList.remove('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(false);
     if (prevFocusElement) prevFocusElement.focus();
     window.removeEventListener('keydown', handleConfirmModalKeys);
   }

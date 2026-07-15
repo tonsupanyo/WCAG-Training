@@ -384,6 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
     prevFocusEl = document.activeElement;
     timerModal.style.display = 'flex';
     timerModal.classList.add('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(true);
     btnModalExtend.focus(); // focus on confirmation
     announceA11y('แจ้งเตือนการจอง: เวลาล็อกจองที่นั่งของคุณใกล้หมดลงแล้ว');
     window.addEventListener('keydown', handleModalKeys);
@@ -392,6 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeTimerModal() {
     timerModal.style.display = 'none';
     timerModal.classList.remove('active');
+    if (window.setModalA11yBackdrop) window.setModalA11yBackdrop(false);
     if (prevFocusEl) prevFocusEl.focus();
     window.removeEventListener('keydown', handleModalKeys);
   }

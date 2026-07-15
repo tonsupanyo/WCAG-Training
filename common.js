@@ -140,16 +140,30 @@ document.addEventListener('DOMContentLoaded', () => {
   
   let lastFocusedElement = null;
   
+  // Expose global modal background isolation helper for SC 1.3.1
+  window.setModalA11yBackdrop = (active) => {
+    const elementsToHide = document.querySelectorAll('.header-wrapper, main, footer');
+    elementsToHide.forEach(el => {
+      if (active) {
+        el.setAttribute('aria-hidden', 'true');
+      } else {
+        el.removeAttribute('aria-hidden');
+      }
+    });
+  };
+  
   const openModal = (triggerElement) => {
     lastFocusedElement = triggerElement;
     modalElement.classList.add('active');
     modalElement.setAttribute('aria-hidden', 'false');
+    window.setModalA11yBackdrop(true);
     refInput.focus();
   };
   
   const closeModal = () => {
     modalElement.classList.remove('active');
     modalElement.setAttribute('aria-hidden', 'true');
+    window.setModalA11yBackdrop(false);
     resultContainer.innerHTML = '';
     searchForm.reset();
     if (lastFocusedElement) {

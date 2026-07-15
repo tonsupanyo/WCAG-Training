@@ -350,7 +350,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const errors = [];
     const fieldsWithErrors = document.querySelectorAll('.form-input.error, select.error');
-    fieldsWithErrors.forEach(el => el.classList.remove('error'));
+    fieldsWithErrors.forEach(el => {
+      el.classList.remove('error');
+      el.removeAttribute('aria-describedby');
+    });
     const activeMsgErrors = document.querySelectorAll('.error-message-text');
     activeMsgErrors.forEach(el => {
       if (el.id !== 'promo-status') el.style.display = 'none';
@@ -483,6 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (feedbackText) {
             feedbackText.style.display = 'block';
             feedbackText.textContent = err.msg.split(': ')[1] || err.msg;
+            // Set dynamic programmatic association for SC 3.3.3
+            el.setAttribute('aria-describedby', `${err.id}-error`);
           }
         }
 
