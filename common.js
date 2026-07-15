@@ -70,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
     langSelect.addEventListener('change', (e) => {
       const selectedLang = e.target.value;
       
+      // Sync html tag lang attribute dynamically
+      document.documentElement.lang = selectedLang;
+      
       // Screen reader announcement for change
       let announcement = 'เปลี่ยนภาษาเป็นภาษาไทยแล้ว';
       if (selectedLang === 'en') {

@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="trip-action-wrapper">
           ${isSoldOut ? 
             `<span class="trip-sold-out-text" aria-live="polite">ที่นั่งเต็ม</span>` :
-            `<button type="button" class="btn btn-primary btn-select" data-trip-id="${trip.id}" aria-haspopup="dialog" aria-expanded="false" aria-controls="seating-modal">เลือกเที่ยวนี้</button>`
+            `<button type="button" class="btn btn-primary btn-select" data-trip-id="${trip.id}">เลือกเที่ยวนี้</button>`
           }
         </div>
       `;
